@@ -1,2 +1,3 @@
 from Bio import Entrez, SeqIO
-print('oi')
+print('oi ')
+print('teste')
