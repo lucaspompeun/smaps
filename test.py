@@ -1,5 +1,9 @@
 import collections 
 
-x = 'atatccgatcbgtcatgcgtgtacnnattctan'
+x = 'atatccgatcbgtcatgcgtgtacnnatsjudgaiuaiojusoatctan'
 
-print(collections.Counter(x))
+#print(collections.Counter(x))
+
+a = '10'
+
+print(10 + int(a))
