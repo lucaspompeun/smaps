@@ -36,3 +36,13 @@ def blastnlocal6(query, subject):
 
 
 #### funcao para buscar as sequencias pelo entrez no NCBI
+def parseoutfmt6(filename):
+    with open(filename, 'r') as outfmt6:
+        print(outfmt6)
+        for line in outfmt6:
+            coluns = line.split()
+            print('o' + coluns[0] + ': ', coluns[4])
+
+    return
+
+parseoutfmt6('blastn.outfmt6')
