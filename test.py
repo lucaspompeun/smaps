@@ -1,25 +1,25 @@
-def spades(read1, project, prefix,  read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs = None):
-    out = project + prefix + 'spades/'
+def bowtie2(read1, reference, project, read2 = None, N='1', L='22', threads='16'):
+    print("bowtie2...")
+    """
+    Run bowtiw2 and returns sam file
+    """
+    out = project + 'bowtie/'
+    database = out + "database"
     if not os.path.exists(out):
         os.mkdir(out)
-
-    cmd =  path + '/spades/bin/spades.py -o ' + out + ' -t ' + threads + ' '
+    os.system("bowtie2-build " + reference + " " + database + " >  " + out + 'database.log')
+    
+    cmd = "bowtie2 -p " + threads + " -x " + database 
     if read2:
-        cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
-        if S:
-            cmd += '-s ' + S + ' '
+        cmd += " -1 " + read1 + " -2 " + read2
+
     else:
-        cmd += '-s ' + read1
-
-    if trusted_contigs:
-        cmd += ' --trusted-contigs ' + trusted_contigs + ' '
+        cmd += " -U " + read1
         
-    if untrusted_contigs:
-        cmd += ' --untrusted-contigs ' + untrusted_contigs + ' '
+    cmd += " -N " + N + " -L " + L + " -S " + out + "output.sam > " + out + 'execution.log'
 
-    cmd += ' > ' + out + 'execution.log'
+    write_file(out + 'comandline.txt', cmd)
 
-    write_file(out + "comandline.txt", cmd)
     os.system(cmd)
 
-    return out + 'contigs.fasta'
+    return out + 'output.sam'
