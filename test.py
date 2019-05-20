@@ -1,9 +1,25 @@
-import collections 
+def spades(read1, project, prefix,  read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs = None):
+    out = project + prefix + 'spades/'
+    if not os.path.exists(out):
+        os.mkdir(out)
 
-x = 'atatccgatcbgtcatgcgtgtacnnatsjudgaiuaiojusoatctan'
+    cmd =  path + '/spades/bin/spades.py -o ' + out + ' -t ' + threads + ' '
+    if read2:
+        cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
+        if S:
+            cmd += '-s ' + S + ' '
+    else:
+        cmd += '-s ' + read1
 
-#print(collections.Counter(x))
+    if trusted_contigs:
+        cmd += ' --trusted-contigs ' + trusted_contigs + ' '
+        
+    if untrusted_contigs:
+        cmd += ' --untrusted-contigs ' + untrusted_contigs + ' '
 
-a = '10'
+    cmd += ' > ' + out + 'execution.log'
 
-print(10 + int(a))
+    write_file(out + "comandline.txt", cmd)
+    os.system(cmd)
+
+    return out + 'contigs.fasta'

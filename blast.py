@@ -35,7 +35,7 @@ def blastnlocal6(query, subject):
     return
 
 
-#### funcao para buscar as sequencias pelo entrez no NCBI
+# funcao para ler o outfmt6
 def parseoutfmt6(filename):
     with open(filename, 'r') as outfmt6:
         print(outfmt6)
@@ -45,4 +45,7 @@ def parseoutfmt6(filename):
 
     return
 
-parseoutfmt6('blastn.outfmt6')
+
+def main():
+
+    return
