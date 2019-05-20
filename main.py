@@ -61,3 +61,29 @@ def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads 
 
     return out + 'output.sam'
 
+
+# from sam file to sorted bam file
+def samtools_samtobam(samfile, project):
+    out = project + 'samtools/'
+    if not os.path.exists(out):
+        os.mkdir(out)
+
+    outbam = out + 'output.bam'
+    sortedbam = out + 'output_sorted.bam'
+
+    os.system(path + '/samtools view -Sb ' + samfile + ' > ' + outbam)
+    os.system(path + '/samtools sort ' + outbam + ' -o ' + sortedbam)
+    os.system(path + '/samtools index ' + sortedbam)
+
+    return sortedbam ################## V E R I F I C A R ######################
+
+
+# unmapped reads
+def unmappedsam(bamfile, project):
+    out = project + 'unmappedreads/'
+    if not os.path.exists(out):
+        os.mkdir(out)
+
+    os.system(path + '/unmappedreads samtools view -f4 ' + bamfile + ' > unmapped.sam')
+
+    return out + 'unmapped.sam'
