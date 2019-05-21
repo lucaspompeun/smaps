@@ -2,6 +2,11 @@ from Bio import Entrez, SeqIO
 import os
 
 
+# global variable to directory
+global path
+path = os.path.dirname(os.path.realpath(__file__))
+
+
 # write out
 def write_file(filename, data, mode="w"):
     with open(filename, mode) as out:
@@ -37,7 +42,7 @@ def spades(read1, project, prefix, read2 = None, trusted_contigs = None, threads
     return out + 'contigs.fasta'
 
 
-# mapping sequences with bowtie2
+# mapping sequences with bowtie2 (reference should receive 'contigs.fasta' from spades function)
 def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads = '16'):
     out = project + 'bowtie/'
     database = out + 'database'
@@ -63,7 +68,7 @@ def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads 
 
 
 # from sam file to sorted bam file
-def samtools_samtobam(samfile, project):
+def samtools(samfile, project):
     out = project + 'samtools/'
     if not os.path.exists(out):
         os.mkdir(out)
@@ -75,15 +80,24 @@ def samtools_samtobam(samfile, project):
     os.system(path + '/samtools sort ' + outbam + ' -o ' + sortedbam)
     os.system(path + '/samtools index ' + sortedbam)
 
-    return sortedbam ################## V E R I F I C A R ######################
+    return sortedbam 
 
 
 # unmapped reads
-def unmappedsam(bamfile, project):
+def unmappedreads(bamfile, project):
     out = project + 'unmappedreads/'
     if not os.path.exists(out):
         os.mkdir(out)
 
-    os.system(path + '/unmappedreads samtools view -f4 ' + bamfile + ' > unmapped.sam')
+    unmapped_sam = 'unmapped.sam'
+    unmapped_bam = 'unmapped.bam'
 
-    return out + 'unmapped.sam'
+    unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
+    views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
+    output = 'samtools fastq ' + unmapped_bam + ' > output.fastq'
+
+    os.system(path + '/unmappedreads ' + unmapped)
+    os.system(path + '/unmappedreads ' + views)
+    os.system(path + '/unmappedreads ' + output)
+    
+    return out + 'unmapped.fastq'
