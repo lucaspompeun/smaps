@@ -25,7 +25,7 @@ def spades(read1, project, prefix, read2 = None, trusted_contigs = None, threads
         cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
         if S:
             cmd += '-s ' + read1
-    else:
+    else:prokka --kindgom Bacteria --outdir prokka_SRR1424625 --genus Escherichia --locustag SRR1424625 /home/lucas/pipeline_teste1/SRR1424625/montagem_default/contigs.fasta
         cmd += '-s ' + read1
 
     if trusted_contigs:
@@ -93,6 +93,7 @@ def unmappedreads(bamfile, project):
     unmapped_bam = 'unmapped.bam'
 
     unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
+    ################################### adicionar o cabeçalho ##########################################
     views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
     output = 'samtools fastq ' + unmapped_bam + ' > output.fastq'
 
@@ -101,3 +102,12 @@ def unmappedreads(bamfile, project):
     os.system(path + '/unmappedreads ' + output)
     
     return out + 'unmapped.fastq'
+
+
+# SSPACES function
+
+
+# prokka function (prokka --outdir pastasaida --genus genero --locustag valordecabecalho contigs.fasta)
+def prokka(filename, project):
+    out = project + 'prokka/'
+
