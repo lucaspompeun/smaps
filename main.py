@@ -2,6 +2,9 @@ from Bio import Entrez, SeqIO
 import os
 
 
+# insert all gcbias here (output needed: scaffold.fasta, read1.fastq and read2.fastq)
+
+
 # global variable to directory
 global path
 path = os.path.dirname(os.path.realpath(__file__))

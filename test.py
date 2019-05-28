@@ -1,6 +1,9 @@
-import os
+def div(a,b):
+    try:
+        x = a/b
+        return x
+    except:
+        return "Nao foi possivel realizar a operacao"
 
-global path
-path = os.path.dirname(os.path.realpath(__file__))
-
-print(path)
+x = div(-218, 7)
+print(x)
