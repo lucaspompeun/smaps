@@ -1,5 +1,7 @@
 from Bio import Entrez, SeqIO
 import os
+import requests
+import time
 
 
 # insert all gcbias here (output needed: scaffold.fasta, read1.fastq and read2.fastq)
@@ -8,7 +10,7 @@ import os
 # global variable to directory
 global path
 path = os.path.dirname(os.path.realpath(__file__))
-
+print(path)
 
 # write out
 def write_file(filename, data, mode="w"):
@@ -16,33 +18,20 @@ def write_file(filename, data, mode="w"):
         out.write(data)
 
 
-# assembly with spades
-def spades(read1, project, prefix, read2 = None, trusted_contigs = None, threads = '16', untrusted_contigs = None):
-    out = project + prefix + 'spades/'
-    if not os.path.exists(out):
-        os.mkdir(out)
-
-    cdm = path + '/spades/bin/spades.py -o ' + out + ' -t ' + threads + ' '
-
+# G C  B I A S  H E R E
+"""
+# uploading to gcbias
+def upload_gcbias(url, read1, read2 = None, reference = None):
+    files = {'read1': open(read1, 'rb')}
     if read2:
-        cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
-        if S:
-            cmd += '-s ' + read1
-    else:prokka --kindgom Bacteria --outdir prokka_SRR1424625 --genus Escherichia --locustag SRR1424625 /home/lucas/pipeline_teste1/SRR1424625/montagem_default/contigs.fasta
-        cmd += '-s ' + read1
+        files.update({'read2': open(read2, 'rb')})
+    if reference:
+        files.update({'reference': open(reference, 'rb')})
 
-    if trusted_contigs:
-        cmd += ' --trusted-contigs ' + trusted_contigs + ' '
+    r = requests.post(url, files=files)
 
-    if untrusted_contigs:
-        cmd += ' --untrusted-contigs ' + untrusted_contigs + ' '
-
-    cmd += ' > ' + out + 'execution.log'
-
-    write_file(out + 'commandline.txt', cmd) # write execution log
-    os.system(cmd)
-
-    return out + 'contigs.fasta'
+    return r # 200 é que deu ok
+"""
 
 
 # mapping sequences with bowtie2 (reference should receive 'contigs.fasta' from spades function)
@@ -114,4 +103,6 @@ def unmappedreads(bamfile, project):
 # prokka function (prokka --outdir pastasaida --genus genero --locustag valordecabecalho contigs.fasta)
 def prokka(filename, project):
     out = project + 'prokka/'
+    if not os.path.exists(out):
+        os.mkdir(out)
 

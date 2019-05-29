@@ -1,6 +1,7 @@
 from Bio import SeqIO
 from Bio.Blast import NCBIWWW
-import sys, os
+import sys 
+import os
 
 # blast de nucleotideos com o NCBI para um contig
 def blastn(filename):

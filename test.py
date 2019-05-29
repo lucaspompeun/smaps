@@ -1,9 +1,26 @@
-def div(a,b):
-    try:
-        x = a/b
-        return x
-    except:
-        return "Nao foi possivel realizar a operacao"
+def spades(read1, project, prefix, read2 = None, trusted_contigs = None, threads = '16', untrusted_contigs = None):
+    out = project + prefix + 'spades/'
+    if not os.path.exists(out):
+        os.mkdir(out)
 
-x = div(-218, 7)
-print(x)
+    cdm = path + '/spades/bin/spades.py -o ' + out + ' -t ' + threads + ' '
+
+    if read2:
+        cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
+        if S:
+            cmd += '-s ' + read1
+    else:prokka --kindgom Bacteria --outdir prokka_SRR1424625 --genus Escherichia --locustag SRR1424625 /home/lucas/pipeline_teste1/SRR1424625/montagem_default/contigs.fasta
+        cmd += '-s ' + read1
+
+    if trusted_contigs:
+        cmd += ' --trusted-contigs ' + trusted_contigs + ' '
+
+    if untrusted_contigs:
+        cmd += ' --untrusted-contigs ' + untrusted_contigs + ' '
+
+    cmd += ' > ' + out + 'execution.log'
+
+    write_file(out + 'commandline.txt', cmd) # write execution log
+    os.system(cmd)
+
+    return out + 'contigs.fasta'
