@@ -1,2 +1,2 @@
-# PIBIC_engbio
-PIBIC 2019-2020
+# smaps
+An assembly improvement tool based on gc bias reduction and extends contigs with unmapped reads 
