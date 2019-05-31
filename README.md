@@ -1,2 +1,2 @@
 # smaps
-An assembly improvement tool based on gc bias reduction and extends contigs with unmapped reads 
+A web tool to extends contigs to reduce gaps with unmapped reads
