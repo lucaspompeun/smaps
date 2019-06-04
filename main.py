@@ -87,7 +87,7 @@ def unmappedreads(bamfile, project):
     unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
     ################################### adicionar o cabeçalho ##########################################
     views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
-    #output = 'samtools fastq ' + unmapped_bam + ' > output.fastq'
+    # output = 'samtools fastq ' + unmapped_bam + ' > output.fastq'
     # unmapped bam vai pro sam to fastq
 
     os.system(path + '/unmappedreads ' + unmapped)
@@ -105,4 +105,3 @@ def prokka(filename, project):
     out = project + 'prokka/'
     if not os.path.exists(out):
         os.mkdir(out)
-
