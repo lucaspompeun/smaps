@@ -18,7 +18,7 @@ def write_file(filename, data, mode="w"):
         out.write(data)
 
 
-# G C  B I A S  H E R E
+# G C  B I A S  H E R E (RETURN CONTIGS.FASTA)
 """
 # uploading to gcbias
 def upload_gcbias(url, read1, read2 = None, reference = None):
@@ -32,6 +32,28 @@ def upload_gcbias(url, read1, read2 = None, reference = None):
 
     return r # 200 é que deu ok
 """
+
+
+# prokka void function (ffn - nucleotideo(quantidade de genes) e faa - proteina)
+def prokka(filename, project):
+    out = project + 'prokka/'
+    if not os.path.exists(out):
+        os.mkdir(out)
+
+    prokka = 'prokka --outdir ' + out + ' --prefix ' + project + ' ' + filename
+    os.system(prokka)
+
+def get_prokka(project, file): # file requires the extension from files (.gbk, .ffn, faa)
+    folder = project + 'prokka/'
+
+    return folder + '*.' + file
+
+
+    
+
+
+
+
 
 
 # mapping sequences with bowtie2 (reference should receive 'contigs.fasta' from spades function)
@@ -100,8 +122,3 @@ def unmappedreads(bamfile, project):
 # SSPACES function
 
 
-# prokka function (prokka --outdir pastasaida --genus genero --locustag valordecabecalho contigs.fasta)
-def prokka(filename, project):
-    out = project + 'prokka/'
-    if not os.path.exists(out):
-        os.mkdir(out)
