@@ -49,13 +49,6 @@ def get_prokka(project, file): # file requires the extension from files (.gbk, .
     return folder + '*.' + file
 
 
-    
-
-
-
-
-
-
 # mapping sequences with bowtie2 (reference should receive 'contigs.fasta' from spades function)
 def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads = '16'):
     out = project + 'bowtie/'
@@ -105,20 +98,39 @@ def unmappedreads(bamfile, project):
 
     unmapped_sam = 'unmapped.sam'
     unmapped_bam = 'unmapped.bam'
+    unmapped_header = 'unmapped.header'
+    unmapped_header_sam  = 'unmapped_header.sam'
 
-    unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
-    ################################### adicionar o cabeçalho ##########################################
-    views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
-    # output = 'samtools fastq ' + unmapped_bam + ' > output.fastq'
-    # unmapped bam vai pro sam to fastq
+    try:
+        unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
+        views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
 
-    os.system(path + '/unmappedreads ' + unmapped)
-    os.system(path + '/unmappedreads ' + views)
-    os.system(path + '/unmappedreads ' + output)
-    
-    return out + 'unmapped.fastq'
+        os.system(path + '/unmappedreads ' + unmapped)
+        os.system(path + '/unmappedreads ' + views)
+
+    except:
+        unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
+        get_header = 'samtools view -H ' + unmapped_bam + ' > ' + unmapped_header
+        add_header = 'cat ' + unmapped_header + unmapped_sam + ' > ' + unmapped_header_sam
+        views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
+
+        os.system(path + '/unmappedreads ' + unmapped)
+        os.system(path + '/unmappedreads ' + get_header)
+        os.system(path + '/unmappedreads ' + add_header)
+        os.system(path + '/unmappedreads ' + views)
+
+    sam_to_fastq = 'java -jar java -jar SamToFastq.jar I=out_with_header.sam F=out_with_header.fastqSamToFastq.jar I=' + unmapped_bam + ' F=unmapped_read_1.fastq F2=unmapped_read_2.fastq FU=unmapped_unpaired.fastq'
+    os.system(sam_to_fastq)
+
+def get_unmapped_fastq(project, value):
+    folder = project + 'unmappedreads/'
+
+    return folder + 'unmapped_read_' + value + '.fastq'
 
 
 # SSPACES function
+def sspaces()
+
+    return
 
 

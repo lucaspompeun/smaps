@@ -9,7 +9,7 @@ def spades(read1, project, prefix, read2 = None, trusted_contigs = None, threads
         cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
         if S:
             cmd += '-s ' + read1
-    else:prokka --kindgom Bacteria --outdir prokka_SRR1424625 --genus Escherichia --locustag SRR1424625 /home/lucas/pipeline_teste1/SRR1424625/montagem_default/contigs.fasta
+    else:
         cmd += '-s ' + read1
 
     if trusted_contigs:
