@@ -131,8 +131,6 @@ def get_unmapped_fastq(project, value):
 # SSPACE function
 def sspace(project, contigs, fastq):
     out = project + 'sspace/'
-    if not os.path.exists(out):
-        os.mkdir(out)
 
     write_file()
 
@@ -140,6 +138,13 @@ def sspace(project, contigs, fastq):
     sspace = path + 'perl /SSPACE/SSPACE.pl -l library.txt -s ' + contigs + ' -x 1 -o ' + o + ' -T 8 -p 1 -b ' + out
     os.system(sspace)
 
-    return
+    return out + 'scaffold.fasta'
 
-SSPACE_Standard_v3.0.pl -l library.txt -s Merged_1/unique.fa -x 1 -o 10 -T 8 -p 1 -b Output_SSPace1
+def get_sspace_summary(project):
+    folder = project + 'sspace/'
+
+    return folder + 'output_sspace.summaryfile.txt'
+
+def main(project):
+
+    return
