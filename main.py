@@ -119,7 +119,7 @@ def unmappedreads(bamfile, project):
         os.system(path + '/unmappedreads ' + add_header)
         os.system(path + '/unmappedreads ' + views)
 
-    sam_to_fastq = 'java -jar java -jar SamToFastq.jar I=out_with_header.sam F=out_with_header.fastqSamToFastq.jar I=' + unmapped_bam + ' F=unmapped_read_1.fastq F2=unmapped_read_2.fastq FU=unmapped_unpaired.fastq'
+    sam_to_fastq = 'java -jar SamToFastq.jar I=out_with_header.sam F=out_with_header.fastqSamToFastq.jar I=' + unmapped_bam + ' F=unmapped_read_1.fastq F2=unmapped_read_2.fastq FU=unmapped_unpaired.fastq'
     os.system(sam_to_fastq)
 
 def get_unmapped_fastq(project, value):
@@ -128,9 +128,9 @@ def get_unmapped_fastq(project, value):
     return folder + 'unmapped_read_' + value + '.fastq'
 
 
-# SSPACES function
-def sspaces()
+# SSPACE function
+def sspace(project, contigs, fastq):
+
 
     return
-
 
