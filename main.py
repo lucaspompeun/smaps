@@ -130,8 +130,12 @@ def get_unmapped_fastq(project, value):
 
 # SSPACE function
 def sspace(project, contigs, fastq):
-    out = project + 'samtools/'
+    out = project + 'sspaces/'
     if not os.path.exists(out):
         os.mkdir(out)
+
+    write_file()
+
+    sspaces = path + 'perl /SSPACE/SSPACE.pl -l library.txt -s ' + contigs + ' -'
 
     return
