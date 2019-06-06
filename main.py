@@ -129,10 +129,11 @@ def get_unmapped_fastq(project, value):
 
 
 # SSPACE function
-def sspace(project, contigs, fastq):
+def sspace(project, contigs, fastq1, fastq2):
     out = project + 'sspace/'
 
-    write_file()
+    data = 'Lib1 bowtie ' + fastq1 + ' ' + fastq2 + ' 400 0.25 FR'
+    write_file('library.txt', data)
 
     o = 5 # minimum reads to get a extension
     sspace = path + 'perl /SSPACE/SSPACE.pl -l library.txt -s ' + contigs + ' -x 1 -o ' + o + ' -T 8 -p 1 -b ' + out
@@ -145,8 +146,6 @@ def get_sspace_summary(project):
 
     return folder + 'output_sspace.summaryfile.txt'
 
-def main(project):
 
-    return
 
-adicionei
+
