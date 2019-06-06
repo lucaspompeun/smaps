@@ -133,4 +133,3 @@ def sspace(project, contigs, fastq):
 
 
     return
-
