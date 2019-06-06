@@ -130,6 +130,8 @@ def get_unmapped_fastq(project, value):
 
 # SSPACE function
 def sspace(project, contigs, fastq):
-
+    out = project + 'samtools/'
+    if not os.path.exists(out):
+        os.mkdir(out)
 
     return
