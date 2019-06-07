@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from Bio import Entrez, SeqIO
 import os
-import requests
+#import requests
 import time
+import sys
 
 
 # insert all gcbias here (output needed: scaffold.fasta, read1.fastq and read2.fastq)
@@ -10,7 +13,7 @@ import time
 # global variable to directory
 global path
 path = os.path.dirname(os.path.realpath(__file__))
-print(path)
+#print(path)
 
 # write out
 def write_file(filename, data, mode="w"):
@@ -37,16 +40,14 @@ def upload_gcbias(url, read1, read2 = None, reference = None):
 # prokka void function (ffn - nucleotideo(quantidade de genes) e faa - proteina)
 def prokka(filename, project):
     out = project + 'prokka/'
-    if not os.path.exists(out):
-        os.mkdir(out)
 
     prokka = 'prokka --outdir ' + out + ' --prefix ' + project + ' ' + filename
     os.system(prokka)
 
-def get_prokka(project, file): # file requires the extension from files (.gbk, .ffn, faa)
+def get_prokka(file, project): # file requires the extension from files (.gbk, .ffn, faa)
     folder = project + 'prokka/'
 
-    return folder + '*.' + file
+    return folder + project + '.' + file
 
 
 # mapping sequences with bowtie2 (reference should receive 'contigs.fasta' from spades function)
@@ -56,22 +57,22 @@ def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads 
     if not os.path.exists(out):
         os.mkdir(out)
 
-    os.system('bowtie2-build ' + reference + ' ' + database + ' > ' + out + 'database.log')
+    print('bowtie2-build ' + reference + ' ' + database)
 
     cmd = 'bowtie2 -p ' + threads + ' -x ' + database
 
     if read2:
-        cmd += ' - 1 ' + read1 + ' -2 ' + read2
+        cmd += ' -1 ' + read1 + ' -2 ' + read2
     else:
         cmd += ' -U ' + read1
 
-    cmd += ' -N ' + N + ' -L ' + L + ' -S ' + out + 'output.sam > ' + out + 'execution.log'
+    cmd += ' -N ' + N + ' -L ' + L + ' -S ' + out + 'output.sam'
 
     write_file(out + 'commandline.txt', cmd)
 
-    os.system(cmd)
+    print(cmd)
 
-    return out + 'output.sam'
+    #return out + 'output.sam'
 
 
 # from sam file to sorted bam file
@@ -96,17 +97,17 @@ def unmappedreads(bamfile, project):
     if not os.path.exists(out):
         os.mkdir(out)
 
-    unmapped_sam = 'unmapped.sam'
-    unmapped_bam = 'unmapped.bam'
-    unmapped_header = 'unmapped.header'
-    unmapped_header_sam  = 'unmapped_header.sam'
+    unmapped_sam = out + 'unmapped.sam'
+    unmapped_bam = out + 'unmapped.bam'
+    unmapped_header = out + 'unmapped.header'
+    unmapped_header_sam  = out + 'unmapped_header.sam'
 
     try:
         unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
         views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
 
-        os.system(path + '/unmappedreads ' + unmapped)
-        os.system(path + '/unmappedreads ' + views)
+        os.system(unmapped)
+        os.system(views)
 
     except:
         unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
@@ -114,14 +115,14 @@ def unmappedreads(bamfile, project):
         add_header = 'cat ' + unmapped_header + unmapped_sam + ' > ' + unmapped_header_sam
         views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
 
-        os.system(path + '/unmappedreads ' + unmapped)
-        os.system(path + '/unmappedreads ' + get_header)
-        os.system(path + '/unmappedreads ' + add_header)
-        os.system(path + '/unmappedreads ' + views)
+        os.system(unmapped)
+        os.system(get_header)
+        os.system(add_header)
+        os.system(views)
 
     sam_to_fastq = 'java -jar SamToFastq.jar I=out_with_header.sam F=out_with_header.fastqSamToFastq.jar I=' + unmapped_bam + ' F=unmapped_read_1.fastq F2=unmapped_read_2.fastq FU=unmapped_unpaired.fastq'
     os.system(sam_to_fastq)
-
+unmappedreads('ecoli_samtools/output_sorted.bam', 'ecoli_')
 def get_unmapped_fastq(project, value):
     folder = project + 'unmappedreads/'
 
