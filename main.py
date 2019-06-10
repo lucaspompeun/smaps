@@ -89,6 +89,7 @@ def samtools(samfile, project):
     os.system(path + '/samtools index ' + sortedbam)
 
     return sortedbam 
+samtools(sys.argv[1], sys.argv[2])
 
 
 # unmapped reads
@@ -99,30 +100,34 @@ def unmappedreads(bamfile, project):
 
     unmapped_sam = out + 'unmapped.sam'
     unmapped_bam = out + 'unmapped.bam'
-    unmapped_header = out + 'unmapped.header'
-    unmapped_header_sam  = out + 'unmapped_header.sam'
 
-    try:
-        unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
-        views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
+    unmapped ='samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
+    views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
+    sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' + out + 'unmapped_read_1.fastq F2=' + out + 'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
+    
+    os.system(unmapped)
+    os.system(views)
+    os.system(sam_to_fastq)
 
-        os.system(unmapped)
-        os.system(views)
+    x = open(out + 'unmapped_unpaired.fastq', 'r')
+    x = x.read()
+    if len(x) == 0:
+        unmapped_sam = out + 'unmapped.sam'
+        unmapped_bam = out + 'unmapped.bam'
+        unmapped_header = out + 'unmapped.header'
+        unmapped_header_sam = out + 'unmapped_header.sam'
+        unmapped_header_bam = out + 'unmapped_header.bam'
 
-    except:
-        unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
-        get_header = 'samtools view -H ' + unmapped_bam + ' > ' + unmapped_header
-        add_header = 'cat ' + unmapped_header + unmapped_sam + ' > ' + unmapped_header_sam
-        views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
+        get_header = 'samtools view -H ' + bamfile+ ' > ' + unmapped_header
+        add_header = 'cat ' + unmapped_header + ' ' + unmapped_sam + ' > ' + unmapped_header_sam
+        view = views = 'samtools view -Sb ' + unmapped_header_sam + ' > ' + unmapped_header_bam
+        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out +'unmapped_read_1.fastq F2=' + out +'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
 
-        os.system(unmapped)
         os.system(get_header)
         os.system(add_header)
-        os.system(views)
+        os.system(view)
+        os.system(sam_to_fastq)
 
-    sam_to_fastq = 'java -jar SamToFastq.jar I=out_with_header.sam F=out_with_header.fastqSamToFastq.jar I=' + unmapped_bam + ' F=unmapped_read_1.fastq F2=unmapped_read_2.fastq FU=unmapped_unpaired.fastq'
-    os.system(sam_to_fastq)
-unmappedreads('ecoli_samtools/output_sorted.bam', 'ecoli_')
 def get_unmapped_fastq(project, value):
     folder = project + 'unmappedreads/'
 
@@ -150,3 +155,4 @@ def get_sspace_summary(project):
 
 
 
+# a
