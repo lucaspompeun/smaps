@@ -2,62 +2,44 @@
 
 from Bio import Entrez, SeqIO
 import os
-#import requests
 import time
 import sys
 
 
-# insert all gcbias here (output needed: scaffold.fasta, read1.fastq and read2.fastq)
-
-
-# global variable to directory
 global path
 path = os.path.dirname(os.path.realpath(__file__))
-#print(path)
 
-# write out
+
 def write_file(filename, data, mode="w"):
     with open(filename, mode) as out:
         out.write(data)
 
 
-# G C  B I A S  H E R E (RETURN CONTIGS.FASTA)
-"""
-# uploading to gcbias
-def upload_gcbias(url, read1, read2 = None, reference = None):
-    files = {'read1': open(read1, 'rb')}
-    if read2:
-        files.update({'read2': open(read2, 'rb')})
-    if reference:
-        files.update({'reference': open(reference, 'rb')})
+def gcbias(read1, read2, project):
+    out = 'projects/' + project + '/gcbias'
+    if not os.path.exists(out):
+        os.mkdir(out)
 
-    r = requests.post(url, files=files)
+    cmd = 'gcbias read1 ' + read1 + ' read2 ' + read2 + ' project ' + project + 'gcbias' + ' outcontig ' + path + '/' + out + '/contigs_gcbias.fasta'
+    os.system(cmd)
 
-    return r # 200 é que deu ok
-"""
+    return out + '/contigs_gcbias.fasta'
 
 
-# prokka void function (ffn - nucleotideo(quantidade de genes) e faa - proteina)
 def prokka(filename, project):
-    out = project + 'prokka/'
+    out = 'projects/' + project + '/prokka/'
 
     prokka = 'prokka --outdir ' + out + ' --prefix ' + project + ' ' + filename
     os.system(prokka)
 
-def get_prokka(file, project): # file requires the extension from files (.gbk, .ffn, faa)
-    folder = project + 'prokka/'
 
-    return folder + project + '.' + file
-
-
-# mapping sequences with bowtie2 (reference should receive 'contigs.fasta' from spades function)
 def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads = '16'):
-    out = project + 'bowtie/'
+    out = 'projects/' + project + '/' + 'bowtie/'
     database = out + 'database'
     if not os.path.exists(out):
         os.mkdir(out)
 
-    print('bowtie2-build ' + reference + ' ' + database)
+    os.system('bowtie2-build ' + reference + ' ' + database)
 
     cmd = 'bowtie2 -p ' + threads + ' -x ' + database
 
@@ -70,14 +52,13 @@ def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads 
 
     write_file(out + 'commandline.txt', cmd)
 
-    print(cmd)
+    os.system(cmd)
 
-    #return out + 'output.sam'
+    return out + 'output.sam'
 
 
-# from sam file to sorted bam file
 def samtools(samfile, project):
-    out = project + 'samtools/'
+    out = 'projects/' + project + '/samtools/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -89,31 +70,29 @@ def samtools(samfile, project):
     os.system(path + '/samtools index ' + sortedbam)
 
     return sortedbam 
-samtools(sys.argv[1], sys.argv[2])
 
 
-# unmapped reads
 def unmappedreads(bamfile, project):
-    out = project + 'unmappedreads/'
+    out = 'projects/' + project + '/unmappedreads/'
     if not os.path.exists(out):
         os.mkdir(out)
-
+    
     unmapped_sam = out + 'unmapped.sam'
     unmapped_bam = out + 'unmapped.bam'
 
     unmapped ='samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
-    views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
-    sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' + out + 'unmapped_read_1.fastq F2=' + out + 'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
+    views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam # head missing is in here
+    sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' + out + 'unmapped_read_1.fastq F2=' \
+        + out + 'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
     
     os.system(unmapped)
     os.system(views)
     os.system(sam_to_fastq)
 
-    x = open(out + 'unmapped_unpaired.fastq', 'r')
+    x = open(out + 'unmapped_read_1.fastq', 'r')
     x = x.read()
     if len(x) == 0:
         unmapped_sam = out + 'unmapped.sam'
-        unmapped_bam = out + 'unmapped.bam'
         unmapped_header = out + 'unmapped.header'
         unmapped_header_sam = out + 'unmapped_header.sam'
         unmapped_header_bam = out + 'unmapped_header.bam'
@@ -121,7 +100,8 @@ def unmappedreads(bamfile, project):
         get_header = 'samtools view -H ' + bamfile+ ' > ' + unmapped_header
         add_header = 'cat ' + unmapped_header + ' ' + unmapped_sam + ' > ' + unmapped_header_sam
         view = views = 'samtools view -Sb ' + unmapped_header_sam + ' > ' + unmapped_header_bam
-        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out +'unmapped_read_1.fastq F2=' + out +'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
+        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out +'unmapped_read_1.fastq F2=' \
+            + out +'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
 
         os.system(get_header)
         os.system(add_header)
@@ -129,30 +109,58 @@ def unmappedreads(bamfile, project):
         os.system(sam_to_fastq)
 
 def get_unmapped_fastq(project, value):
-    folder = project + 'unmappedreads/'
+    folder = 'projects/' + project + '/unmappedreads/'
 
-    return folder + 'unmapped_read_' + value + '.fastq'
+    return folder + 'unmapped_read_' + str(value) + '.fastq'
 
 
-# SSPACE function
-def sspace(project, contigs, fastq1, fastq2):
-    out = project + 'sspace/'
+def sspace(project, contigs, fastq1, fastq2, o = 5 ):
+    out = 'projects/' + project + '/sspace'
 
     data = 'Lib1 bowtie ' + fastq1 + ' ' + fastq2 + ' 400 0.25 FR'
     write_file('library.txt', data)
 
-    o = 5 # minimum reads to get a extension
-    sspace = path + 'perl /SSPACE/SSPACE.pl -l library.txt -s ' + contigs + ' -x 1 -o ' + o + ' -T 8 -p 1 -b ' + out
+    sspace = path + '/SSPACE/SSPACE.pl -l library.txt -s ' + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + out
     os.system(sspace)
 
-    return out + 'scaffold.fasta'
-
-def get_sspace_summary(project):
-    folder = project + 'sspace/'
-
-    return folder + 'output_sspace.summaryfile.txt'
+    return out + '/' + out + '.final.scaffolds.fasta'
 
 
+def quast(contig_list, ref_fasta, project):
+	out = 'projects/' + project + 'quast/'
+	if not os.path.exists(out):
+		os.mkdir(out)
+	cmd = "quast.py" + " -o " + out + " "
+	for contig in contig_list:
+		if contig:
+			cmd += contig + ' '
+
+	cmd += " > " + out + "quast.log"
+
+	os.system(cmd)
+
+	return out
 
 
-# a
+def main(read1, read2, project):
+    out = 'projects/' + project
+    os.mkdir(out)
+    results_folder = out + '/results'
+    os.mkdir(results_folder)
+
+    contigs_gcbias = gcbias(read1, read2, project)
+
+    sam_file = bowtie2(read1, contigs_gcbias, project, read2)
+    sorted_bam = samtools(sam_file, project)
+
+    unmappedreads(sorted_bam, project)
+    unmapped_fastq1 = get_unmapped_fastq(project, 1)
+    unmapped_fastq2 = get_unmapped_fastq(project, 2)
+
+    scaffolds_fasta = sspace(project, contigs_gcbias, unmapped_fastq1, unmapped_fastq2)
+
+    prokka(scaffolds_fasta, project)
+
+main('data/1.fastq', 'data/2.fastq', 'teste1')
+
+
