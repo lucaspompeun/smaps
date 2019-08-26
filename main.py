@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import time
 import sys
 
 
@@ -15,7 +14,7 @@ def write_file(filename, data, mode="w"):
 
 
 def gcbias(read1, read2, project):
-    out = project + 'gcbias/'
+    out = 'projects/' + project + '/gcbias'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -26,20 +25,19 @@ def gcbias(read1, read2, project):
 
 
 def prokka(filename, project):
-    out = project + 'prokka/'
+    out = 'projects/' + project + '/prokka/'
 
     prokka = 'prokka --outdir ' + out + ' --prefix ' + project + ' ' + filename
     os.system(prokka)
 
 
-
 def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads = '16'):
-    out = project + 'bowtie/'
+    out = 'projects/' + project + '/' + 'bowtie/'
     database = out + 'database'
     if not os.path.exists(out):
         os.mkdir(out)
 
-    print('bowtie2-build ' + reference + ' ' + database)
+    os.system('bowtie2-build ' + reference + ' ' + database)
 
     cmd = 'bowtie2 -p ' + threads + ' -x ' + database
 
@@ -52,13 +50,13 @@ def bowtie2(read1, reference, project, read2 = None, N = '1', L = '22', threads 
 
     write_file(out + 'commandline.txt', cmd)
 
-    print(cmd)
+    os.system(cmd)
 
     return out + 'output.sam'
 
 
 def samtools(samfile, project):
-    out = project + 'samtools/'
+    out = 'projects/' + project + '/samtools/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -69,11 +67,11 @@ def samtools(samfile, project):
     os.system(path + '/samtools sort ' + outbam + ' -o ' + sortedbam)
     os.system(path + '/samtools index ' + sortedbam)
 
-    return sortedbam 
-    
+    return sortedbam
+
 
 def unmappedreads(bamfile, project):
-    out = project + 'unmappedreads/'
+    out = 'projects/' + project + '/unmappedreads/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -81,18 +79,18 @@ def unmappedreads(bamfile, project):
     unmapped_bam = out + 'unmapped.bam'
 
     unmapped ='samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
-    views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
-    sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' + out + 'unmapped_read_1.fastq F2=' + out + 'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
-    
+    views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam # head missing is in here
+    sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' + out + 'unmapped_read_1.fastq F2=' \
+        + out + 'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
+
     os.system(unmapped)
     os.system(views)
     os.system(sam_to_fastq)
 
-    x = open(out + 'unmapped_unpaired.fastq', 'r')
+    x = open(out + 'unmapped_read_1.fastq', 'r')
     x = x.read()
     if len(x) == 0:
         unmapped_sam = out + 'unmapped.sam'
-        unmapped_bam = out + 'unmapped.bam'
         unmapped_header = out + 'unmapped.header'
         unmapped_header_sam = out + 'unmapped_header.sam'
         unmapped_header_bam = out + 'unmapped_header.bam'
@@ -100,7 +98,8 @@ def unmappedreads(bamfile, project):
         get_header = 'samtools view -H ' + bamfile+ ' > ' + unmapped_header
         add_header = 'cat ' + unmapped_header + ' ' + unmapped_sam + ' > ' + unmapped_header_sam
         view = views = 'samtools view -Sb ' + unmapped_header_sam + ' > ' + unmapped_header_bam
-        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out +'unmapped_read_1.fastq F2=' + out +'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
+        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out +'unmapped_read_1.fastq F2=' \
+            + out +'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
 
         os.system(get_header)
         os.system(add_header)
@@ -108,21 +107,21 @@ def unmappedreads(bamfile, project):
         os.system(sam_to_fastq)
 
 def get_unmapped_fastq(project, value):
-    folder = project + 'unmappedreads/'
+    folder = 'projects/' + project + '/unmappedreads/'
 
     return folder + 'unmapped_read_' + str(value) + '.fastq'
 
 
-def sspace(project, contigs, fastq1, fastq2, o = 5):
-    out = project + 'sspace/'
+def sspace(project, contigs, fastq1, fastq2, o = 5 ):
+    out = 'projects/' + project + '/sspace'
 
     data = 'Lib1 bowtie ' + fastq1 + ' ' + fastq2 + ' 400 0.25 FR'
     write_file('library.txt', data)
 
-    sspace = path + 'perl /SSPACE/SSPACE.pl -l library.txt -s ' + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + out
+    sspace = path + '/SSPACE/SSPACE.pl -l library.txt -s ' + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + out
     os.system(sspace)
 
-    return out + 'scaffold.fasta'
+    return out + '/' + out + '.final.scaffolds.fasta'
 
 
 def quast(contig_list, ref_fasta, project):
@@ -142,6 +141,12 @@ def quast(contig_list, ref_fasta, project):
 
 
 def main(read1, read2, project):
+    os.system('chmod +x ' + path + '/samtools')
+
+    out = 'projects/' + project
+    os.mkdir(out)
+    results_folder = out + '/results'
+    os.mkdir(results_folder)
 
     contigs_gcbias = gcbias(read1, read2, project)
 
@@ -156,6 +161,4 @@ def main(read1, read2, project):
 
     prokka(scaffolds_fasta, project)
 
-main(sys.argv[1], sys.argv[2], sys.argv[3])
-
-
+main('data/1.fastq', 'data/2.fastq', 'teste1')
