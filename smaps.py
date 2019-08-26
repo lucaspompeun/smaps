@@ -1,8 +1,3 @@
-import os
-
-global path
-path = os.path.dirname(os.path.realpath(__file__))
-
 def unmappedreads(bamfile, project):
     out = project + 'unmappedreads/'
     if not os.path.exists(out):
@@ -11,11 +6,9 @@ def unmappedreads(bamfile, project):
     unmapped_sam = out + 'unmapped.sam'
     unmapped_bam = out + 'unmapped.bam'
 
-    unmapped = 'samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
+    unmapped ='samtools view -f4 ' + bamfile + ' > ' + unmapped_sam
     views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
-    sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' \
-                    + out + 'unmapped_read_1.fastq F2=' + out + 'unmapped_read_2.fastq FU=' \
-                    + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
+    sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' + out + 'unmapped_read_1.fastq F2=' + out + 'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
 
     os.system(unmapped)
     os.system(views)
@@ -25,6 +18,7 @@ def unmappedreads(bamfile, project):
     x = x.read()
     if len(x) == 0:
         unmapped_sam = out + 'unmapped.sam'
+        unmapped_bam = out + 'unmapped.bam'
         unmapped_header = out + 'unmapped.header'
         unmapped_header_sam = out + 'unmapped_header.sam'
         unmapped_header_bam = out + 'unmapped_header.bam'
