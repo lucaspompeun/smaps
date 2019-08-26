@@ -18,7 +18,7 @@ def unmappedreads(bamfile, project):
     os.system(unmapped)
     os.system(views)
     os.system(sam_to_fastq)
-
+"""
     x = open(out + 'unmapped_read_1.fastq', 'r')
     x = x.read()
     if len(x) == 0:
@@ -36,7 +36,7 @@ def unmappedreads(bamfile, project):
         os.system(get_header)
         os.system(add_header)
         os.system(view)
-        os.system(sam_to_fastq)
+        os.system(sam_to_fastq)"""
 
 unmappedreads('data/output_sorted.bam', 'teste_unmapped')
 
