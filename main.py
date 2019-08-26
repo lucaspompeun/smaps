@@ -104,9 +104,7 @@ def unmappedreads(bamfile, project):
         get_header = 'samtools view -H ' + bamfile+ ' > ' + unmapped_header
         add_header = 'cat ' + unmapped_header + ' ' + unmapped_sam + ' > ' + unmapped_header_sam
         view = views = 'samtools view -Sb ' + unmapped_header_sam + ' > ' + unmapped_header_bam
-        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out \
-                        +'unmapped_read_1.fastq F2=' + out +'unmapped_read_2.fastq FU=' + out \
-                        + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
+        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out +'unmapped_read_1.fastq F2=' + out +'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
 
         os.system(get_header)
         os.system(add_header)
