@@ -161,4 +161,4 @@ def main(read1, read2, project):
 
     prokka(scaffolds_fasta, project)
 
-main('data/sample1.fastq', 'data/sample2.fastq', 'teste1')
+main(sys.argv[1], sys.argv[2], sys.argv[3])
