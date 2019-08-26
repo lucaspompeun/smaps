@@ -15,15 +15,13 @@ def unmappedreads(bamfile, project):
     views = 'samtools view -Sb ' + unmapped_sam + ' > ' + unmapped_bam
     sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_bam + ' F=' + out + 'unmapped_read_1.fastq F2=' + out + 'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_1.txt'
 
-    os.system(unmapped)
-    os.system(views)
-    os.system(sam_to_fastq)
+    #os.system(unmapped)
+    #os.system(views)
+    #os.system(sam_to_fastq)
 
-    x = open(out + 'unmapped_read_1.fastq', 'r')
-    x = x.read()
-    if len(x) == 0:
-        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
-        """
+   # x = open(out + 'unmapped_read_1.fastq', 'r')
+   # x = x.read()
+    if True:
         unmapped_sam = out + 'unmapped.sam'
         unmapped_bam = out + 'unmapped.bam'
         unmapped_header = out + 'unmapped.header'
@@ -38,7 +36,7 @@ def unmappedreads(bamfile, project):
         os.system(get_header)
         os.system(add_header)
         os.system(view)
-        os.system(sam_to_fastq)"""
+        os.system(sam_to_fastq)
 
 unmappedreads('data/output_sorted.bam', 'teste_unmapped')
 
