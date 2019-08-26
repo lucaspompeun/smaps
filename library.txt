@@ -1,1 +1,1 @@
-Lib1 bowtie projects/teste1/unmappedreads/unmapped_read_1.fastq projects/teste1/unmappedreads/unmapped_read_2.fastq 400 0.25 FR
+Lib1 bowtie projects/testecomignore/unmappedreads/unmapped_read_1.fastq projects/testecomignore/unmappedreads/unmapped_read_2.fastq 400 0.25 FR
