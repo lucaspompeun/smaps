@@ -21,7 +21,7 @@ def unmappedreads(bamfile, project):
     os.system(views)
     os.system(sam_to_fastq)
 
-    x = open(out + 'unmapped_read_1.fastq', 'r')
+    x = open(out + 'unmapped_unpaired.fastq', 'r')
     x = x.read()
     if len(x) == 0:
         unmapped_sam = out + 'unmapped.sam'
