@@ -162,5 +162,3 @@ def main(read1, read2, project):
     prokka(scaffolds_fasta, project)
 
 main(sys.argv[1], sys.argv[2], sys.argv[3])
-
-#aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
