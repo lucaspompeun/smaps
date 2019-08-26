@@ -4,7 +4,7 @@ global path
 path = os.path.dirname(os.path.realpath(__file__))
 
 def unmappedreads(bamfile, project):
-    out = 'projects/' + project + '/unmappedreads/'
+    out = project + 'unmappedreads/'
     if not os.path.exists(out):
         os.mkdir(out)
 
