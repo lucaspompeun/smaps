@@ -169,4 +169,4 @@ def main(read1, read2, project):
 
     prokka(scaffolds_fasta, project)
 
-main('data/contigs.fasta', sys.argv[1], sys.argv[2])
+main(sys.argv[1], sys.argv[2], sys.argv[3])
