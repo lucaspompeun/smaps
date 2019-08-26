@@ -1,3 +1,8 @@
+import os
+
+global path
+path = os.path.dirname(os.path.realpath(__file__))
+
 def unmappedreads(bamfile, project):
     out = project + 'unmappedreads/'
     if not os.path.exists(out):
