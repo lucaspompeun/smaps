@@ -18,10 +18,12 @@ def unmappedreads(bamfile, project):
     os.system(unmapped)
     os.system(views)
     os.system(sam_to_fastq)
-"""
+
     x = open(out + 'unmapped_read_1.fastq', 'r')
     x = x.read()
     if len(x) == 0:
+        print('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+        """
         unmapped_sam = out + 'unmapped.sam'
         unmapped_bam = out + 'unmapped.bam'
         unmapped_header = out + 'unmapped.header'
