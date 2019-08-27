@@ -128,7 +128,7 @@ def sspace(project, contigs, fastq1, fastq2, o=5):
 
     sspace = path + '/SSPACE/SSPACE.pl -l ' + 'projects/' + project + '/library.txt -s ' \
                     + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + project + ' 2>&1 | tee ' + out
-    os.system('cd ' + out + ' && ' + sspace)
+    os.system('cd ' + out1 + ' && ' + sspace)
 
     #return out + '/' + '.final.scaffolds.fasta'
 
