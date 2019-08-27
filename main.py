@@ -118,10 +118,10 @@ def get_unmapped_fastq(project, value):
 
 
 def sspace(project, contigs, fastq1, fastq2, o=5):
-    out = 'projects/' + project + '/sspace'
+    out = 'projects/' + project + '/sspace/'
 
     data = 'Lib1 bowtie ' + fastq1 + ' ' + fastq2 + ' 400 0.25 FR'
-    write_file(path + '/' + out + '/library.txt', data)
+    write_file(out + '/library.txt', data)
 
     sspace = path + '/SSPACE/SSPACE.pl -l ' + out + '/library.txt -s ' \
                     + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + out
