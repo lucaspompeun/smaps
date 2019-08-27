@@ -118,6 +118,7 @@ def get_unmapped_fastq(project, value):
 
 
 def sspace(project, contigs, fastq1, fastq2, o=5):
+    os.system('chmod +x' + path + '/SSPACE/SSPACE.pl)
     out = 'projects/' + project + '/sspace'
     out1 = 'projects/' + project
     os.mkdir(out1)
@@ -131,7 +132,7 @@ def sspace(project, contigs, fastq1, fastq2, o=5):
 
     #return out + '/' + '.final.scaffolds.fasta'
 
-sspace('SSPACEEEEE', 'data/contigs.fasta', 'data/sample1.fastq', 'data/sample2.fastq')
+sspace('SSPACEEEEE11111111111', 'data/contigs.fasta', 'data/sample1.fastq', 'data/sample2.fastq')
 
 
 def quast(contig_list, ref_fasta, project):
