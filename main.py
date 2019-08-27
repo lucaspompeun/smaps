@@ -119,6 +119,8 @@ def get_unmapped_fastq(project, value):
 
 def sspace(project, contigs, fastq1, fastq2, o=5):
     out = 'projects/' + project + '/sspace'
+    out1 = 'projects/' + project
+    os.mkdir(out1)
 
     data = 'Lib1 bowtie ' + fastq1 + ' ' + fastq2 + ' 400 0.25 FR'
     write_file('projects/' + project + '/library.txt', data)
@@ -127,7 +129,9 @@ def sspace(project, contigs, fastq1, fastq2, o=5):
                     + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + out
     os.system(sspace)
 
-    return out + '/' + '.final.scaffolds.fasta'
+    #return out + '/' + '.final.scaffolds.fasta'
+
+sspace('SSPACEEEEE', 'data/contigs.fasta', 'data/sample1.fastq', 'data/sample2.fastq')
 
 
 def quast(contig_list, ref_fasta, project):
@@ -167,4 +171,4 @@ def main(read1, read2, project):
 
     prokka(scaffolds_fasta, project)
 
-main(sys.argv[1], sys.argv[2], sys.argv[3])
+#main(sys.argv[1], sys.argv[2], sys.argv[3])
