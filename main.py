@@ -127,12 +127,12 @@ def sspace(project, contigs, fastq1, fastq2, o=5):
     write_file('projects/' + project + '/library.txt', data)
 
     sspace = path + '/SSPACE/SSPACE.pl -l ' + 'projects/' + project + '/library.txt -s ' \
-                    + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + out
+                    + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + project
     os.system(sspace)
 
     #return out + '/' + '.final.scaffolds.fasta'
 
-sspace('SSPACEEEEE11111111111', 'data/contigs.fasta', 'data/sample1.fastq', 'data/sample2.fastq')
+sspace('SSPACEEEEE22222222', 'data/contigs.fasta', 'data/sample1.fastq', 'data/sample2.fastq')
 
 
 def quast(contig_list, ref_fasta, project):
