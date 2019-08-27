@@ -118,7 +118,7 @@ def get_unmapped_fastq(project, value):
 
 
 def sspace(project, contigs, fastq1, fastq2, o=5):
-    os.system('chmod +x' + path + '/SSPACE/SSPACE.pl')
+    os.system('chmod +x ' + path + '/SSPACE/SSPACE.pl')
     out = 'projects/' + project + '/sspace'
     out1 = 'projects/' + project
     os.mkdir(out1)
