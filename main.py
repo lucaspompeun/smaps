@@ -118,7 +118,6 @@ def get_unmapped_fastq(project, value):
 
 
 def sspace(project, contigs, fastq1, fastq2, o=5):
-    os.system('chmod +x ' + path + '/SSPACE/SSPACE.pl')
     out = 'projects/' + project + '/sspace'
     out1 = 'projects/' + project
     os.mkdir(out1)
@@ -127,7 +126,7 @@ def sspace(project, contigs, fastq1, fastq2, o=5):
     write_file('projects/' + project + '/library.txt', data)
 
     sspace = path + '/SSPACE/SSPACE.pl -l ' + 'projects/' + project + '/library.txt -s ' \
-                    + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + project + ' 2>&1 | tee ' + out
+                    + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + project
     os.system('cd ' + out1 + ' && ' + sspace)
 
     #return out + '/' + '.final.scaffolds.fasta'
