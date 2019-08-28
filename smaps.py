@@ -1,7 +1,6 @@
 import argparse
 import main
 
-# args structure
 parser = argparse.ArgumentParser(description = 'Smaps - A tool to extends contigs to reduce gaps with unmapped reads')
 
 parser.add_argument('-read1', action='store', dest='read1', required = True, help='first fastq file (required)')
