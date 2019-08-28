@@ -104,7 +104,9 @@ def unmappedreads(bamfile, project):
         get_header = 'samtools view -H ' + bamfile+ ' > ' + unmapped_header
         add_header = 'cat ' + unmapped_header + ' ' + unmapped_sam + ' > ' + unmapped_header_sam
         view = views = 'samtools view -Sb ' + unmapped_header_sam + ' > ' + unmapped_header_bam
-        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out +'unmapped_read_1.fastq F2=' + out +'unmapped_read_2.fastq FU=' + out + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
+        sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out \
+                        +'unmapped_read_1.fastq F2=' + out +'unmapped_read_2.fastq FU=' + out \
+                        + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
 
         os.system(get_header)
         os.system(add_header)
@@ -124,7 +126,8 @@ def sspace(project, contigs, fastq1, fastq2, o=5):
     data = 'Lib1 bowtie ' + path + '/' + fastq1 + ' ' + path + '/' + fastq2 + ' 400 0.25 FR'
     write_file('projects/' + project + '/library.txt', data)
 
-    sspace = path + '/SSPACE/SSPACE.pl -l ' + path + '/projects/' + project + '/library.txt -s ' + path + '/' + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b sspace'
+    sspace = path + '/SSPACE/SSPACE.pl -l ' + path + '/projects/' + project + '/library.txt -s ' \
+            + path + '/' + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b sspace'
     os.system('cd ' + out1 + ' && ' + sspace)
 
     return out + '/' + 'sspace.final.scaffolds.fasta'
@@ -154,7 +157,7 @@ def main(read1, read2, project):
     results_folder = out + '/results'
     os.mkdir(results_folder)
 
-    contigs_gcbias = 'data/contigs.fasta' #gcbias(read1, read2, project)
+    contigs_gcbias = gcbias(read1, read2, project)
 
     sam_file = bowtie2(read1, contigs_gcbias, project, read2)
     sorted_bam = samtools(sam_file, project)
