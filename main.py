@@ -122,7 +122,7 @@ def sspace(project, contigs, fastq1, fastq2, o=5):
     out1 = 'projects/' + project
     os.mkdir(out1)
 
-    data = 'Lib1 bowtie ' + fastq1 + ' ' + fastq2 + ' 400 0.25 FR'
+    data = 'Lib1 bowtie ' + path + '/' + fastq1 + ' ' + path + '/' + fastq2 + ' 400 0.25 FR'
     write_file('projects/' + project + '/library.txt', data)
 # add path em geral
     sspace = path + '/SSPACE/SSPACE.pl -l ' + path + '/projects/' + project + '/library.txt -s ' + path + '/' + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b ' + project
