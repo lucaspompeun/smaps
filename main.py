@@ -1,5 +1,6 @@
 """
 Smaps - A web tool to extends contigs to reduce gaps with unmapped reads
+Author: Lucas Pompeu
 """
 
 # -*- coding: utf-8 -*-
@@ -16,6 +17,16 @@ def write_file(filename, data, mode="w"):
     with open(filename, mode) as out:
         out.write(data)
 
+
+"""def gcbias(read1, read2, project, reference):
+    out = 'projects/' + project + '/gcbias'
+    if not os.path.exists(out):
+        os.mkdir(out)
+
+    cmd = 'gcbias read1 ' + read1 + ' read2 ' + read2 + ' project ' + project + '_smaps reference ' + reference + ' outcontig ' + path + '/' + out + '/contigs_gcbias.fasta'
+    os.system(cmd)
+
+    return out + '/contigs_gcbias.fasta'"""
 
 def gcbias(read1, read2, project):
     out = 'projects/' + project + '/gcbias'
@@ -119,7 +130,7 @@ def get_unmapped_fastq(project, value):
     return folder + 'unmapped_read_' + str(value) + '.fastq'
 
 
-def sspace(project, contigs, fastq1, fastq2, o=5):
+def sspace(project, contigs, fastq1, fastq2, o):
     out = 'projects/' + project + '/sspace'
     out1 = 'projects/' + project
 
@@ -149,7 +160,7 @@ def quast(contig_list, ref_fasta, project):
     return out
 
 
-def main(read1, read2, project):
+def main(read1, read2, project, o):
     os.system('chmod +x ' + path + '/samtools')
 
     out = 'projects/' + project
@@ -166,8 +177,6 @@ def main(read1, read2, project):
     unmapped_fastq1 = get_unmapped_fastq(project, 1)
     unmapped_fastq2 = get_unmapped_fastq(project, 2)
 
-    scaffolds_fasta = sspace(project, contigs_gcbias, unmapped_fastq1, unmapped_fastq2)
+    scaffolds_fasta = sspace(project, contigs_gcbias, unmapped_fastq1, unmapped_fastq2, o)
 
     prokka(scaffolds_fasta, project)
-
-main(sys.argv[1], sys.argv[2], sys.argv[3])
