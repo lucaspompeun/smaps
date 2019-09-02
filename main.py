@@ -28,13 +28,15 @@ def write_file(filename, data, mode="w"):
 
     return out + '/contigs_gcbias.fasta'"""
 
-def gcbias(read1, read2, project):
+def gcbias(read1, read2, project, reference=None):
     out = 'projects/' + project + '/gcbias'
     if not os.path.exists(out):
         os.mkdir(out)
 
-    cmd = 'gcbias read1 ' + read1 + ' read2 ' + read2 + ' project ' + project + 'gcbias' \
-            + ' outcontig ' + path + '/' + out + '/contigs_gcbias.fasta'
+    cmd = 'gcbias read1 ' + read1 + ' read2 ' + read2 + ' project ' + project + 'gcbias' + ' outcontig ' + path + '/' + out + '/contigs_gcbias.fasta'
+    if reference:
+        cmd += ' reference ' + reference
+
     os.system(cmd)
 
     return out + '/contigs_gcbias.fasta'
@@ -144,23 +146,25 @@ def sspace(project, contigs, fastq1, fastq2, o):
     return out + '/' + 'sspace.final.scaffolds.fasta'
 
 
-def quast(contig_list, ref_fasta, project):
+def quast(contig_list, project, reference=None):
     out = 'projects/' + project + 'quast/'
     if not os.path.exists(out):
         os.mkdir(out)
+
     cmd = "quast.py" + " -o " + out + " "
     for contig in contig_list:
         if contig:
             cmd += contig + ' '
-
+    if reference:
+        cmd += '-r ' + reference
     cmd += " > " + out + "quast.log"
 
-    os.system(cmd)
+    print(cmd)
 
     return out
 
 
-def main(read1, read2, project, o):
+def main(read1, read2, project, o, reference=None):
     os.system('chmod +x ' + path + '/samtools')
 
     out = 'projects/' + project
@@ -168,7 +172,10 @@ def main(read1, read2, project, o):
     results_folder = out + '/results'
     os.mkdir(results_folder)
 
-    contigs_gcbias = gcbias(read1, read2, project)
+    if reference:
+        contigs_gcbias = gcbias(read1, read2, project, reference)
+    else:
+        contigs_gcbias = gcbias(read1, read2, project)
 
     sam_file = bowtie2(read1, contigs_gcbias, project, read2)
     sorted_bam = samtools(sam_file, project)
@@ -180,3 +187,9 @@ def main(read1, read2, project, o):
     scaffolds_fasta = sspace(project, contigs_gcbias, unmapped_fastq1, unmapped_fastq2, o)
 
     prokka(scaffolds_fasta, project)
+
+    contig_list = [contigs_gcbias, scaffolds_fasta]
+    if reference:
+        quast(contig_list, project, reference)
+    else:
+        quast(contig_list, project)
