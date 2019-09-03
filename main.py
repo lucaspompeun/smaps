@@ -148,7 +148,7 @@ def quast(contig_list, project, reference=None):
         cmd += '-r ' + reference
     cmd += " > " + out + "quast.log"
 
-    print(cmd)
+    os.system(cmd)
 
     return out
 
