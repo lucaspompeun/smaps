@@ -18,16 +18,6 @@ def write_file(filename, data, mode="w"):
         out.write(data)
 
 
-"""def gcbias(read1, read2, project, reference):
-    out = 'projects/' + project + '/gcbias'
-    if not os.path.exists(out):
-        os.mkdir(out)
-
-    cmd = 'gcbias read1 ' + read1 + ' read2 ' + read2 + ' project ' + project + '_smaps reference ' + reference + ' outcontig ' + path + '/' + out + '/contigs_gcbias.fasta'
-    os.system(cmd)
-
-    return out + '/contigs_gcbias.fasta'"""
-
 def gcbias(read1, read2, project, reference=None):
     out = 'projects/' + project + '/gcbias'
     if not os.path.exists(out):
@@ -36,7 +26,6 @@ def gcbias(read1, read2, project, reference=None):
     cmd = 'gcbias read1 ' + read1 + ' read2 ' + read2 + ' project ' + project + 'gcbias' + ' outcontig ' + path + '/' + out + '/contigs_gcbias.fasta'
     if reference:
         cmd += ' reference ' + reference
-
     os.system(cmd)
 
     return out + '/contigs_gcbias.fasta'
