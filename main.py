@@ -136,7 +136,7 @@ def sspace(project, contigs, fastq1, fastq2, o):
 
 
 def quast(contig_list, project, reference=None):
-    out = 'projects/' + project + 'quast/'
+    out = 'projects/' + project + '/quast/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -146,8 +146,6 @@ def quast(contig_list, project, reference=None):
             cmd += contig + ' '
     if reference:
         cmd += '-r ' + reference
-    cmd += " > " + out + "quast.log"
-
     os.system(cmd)
 
     return out
