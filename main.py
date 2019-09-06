@@ -161,8 +161,8 @@ def main(read1, read2, project, o, reference=None):
 
     out = 'projects/' + project
     os.mkdir(out)
-    results_folder = out + '/results'
-    os.mkdir(results_folder)
+    """results_folder = out + '/results'
+    os.mkdir(results_folder)"""
 
     if reference:
         contigs_gcbias = gcbias(read1, read2, project, reference)
