@@ -157,12 +157,9 @@ def quast(contig_list, project, reference=None):
 
 
 def main(read1, read2, project, o, reference=None):
-    os.system('chmod +x ' + path + '/samtools')
-
     out = 'projects/' + project
-    os.mkdir(out)
-    """results_folder = out + '/results'
-    os.mkdir(results_folder)"""
+    if not os.path.exists(out):
+        os.mkdir(out)
 
     if reference:
         contigs_gcbias = gcbias(read1, read2, project, reference)
