@@ -1,0 +1,68 @@
+---
+max read length: 76
+nomerge max read length: 76
+average read length: 75.7865
+average coverage: 0.993887
+libraries:       
+    - type:            paired-end
+      orientation:     fr
+      left reads:      
+        - /home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida_vies/corrected/out_1.00.0_0.cor.fastq.gz
+      right reads:     
+        - /home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida_vies/corrected/out_2.00.0_0.cor.fastq.gz
+      single reads:    
+        - /home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida_vies/corrected/out__unpaired.00.0_0.cor.fastq.gz
+        - /home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida_vies/corrected/out_SE.00.0_1.cor.fastq.gz
+      data:            
+        unmerged read length: 76
+        merged read length: 0
+        insert size mean: 207.014
+        insert size deviation: 27.7346
+        insert size left quantile: 170
+        insert size right quantile: 249
+        insert size median: 203
+        insert size mad: 24
+        insert size distribution: { 170: 71, 171: 3, 172: 5, 173: 6, 174: 4, 
+                                    175: 5, 176: 4, 177: 2, 178: 4, 179: 2, 
+                                    180: 6, 181: 7, 182: 5, 183: 4, 184: 2, 
+                                    185: 6, 186: 5, 187: 8, 188: 4, 189: 1, 
+                                    190: 1, 191: 3, 192: 6, 193: 7, 194: 9, 
+                                    195: 6, 196: 8, 197: 15, 198: 7, 199: 9, 
+                                    200: 7, 201: 6, 202: 8, 203: 9, 204: 9, 
+                                    205: 8, 206: 4, 207: 5, 208: 7, 209: 2, 
+                                    210: 8, 211: 6, 212: 4, 213: 3, 214: 3, 
+                                    216: 6, 217: 6, 218: 2, 219: 8, 220: 5, 
+                                    222: 5, 223: 4, 224: 6, 225: 6, 226: 6, 
+                                    227: 5, 228: 6, 229: 6, 230: 3, 231: 9, 
+                                    232: 2, 233: 4, 234: 4, 235: 3, 236: 2, 
+                                    237: 7, 238: 2, 239: 2, 240: 4, 241: 3, 
+                                    242: 2, 243: 3, 244: 3, 245: 2, 246: 1, 
+                                    247: 4, 248: 5, 249: 4, 250: 4, 251: 3, 
+                                    252: 1, 253: 4, 254: 1, 255: 2, 256: 1, 
+                                    257: 1, 258: 2, 259: 5, 260: 25 }
+        pi threshold:    0
+        binary converted: true
+        single reads mapped: false
+        library index:   0
+        number of reads: 3250
+        total nucleotides: 246306
+    - type:            trusted-contigs
+      single reads:    
+        - /home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/default/contigs.fasta
+      data:            
+        unmerged read length: 0
+        merged read length: 0
+        insert size mean: 0
+        insert size deviation: 0
+        insert size left quantile: 0
+        insert size right quantile: 0
+        insert size median: 0
+        insert size mad: 0
+        insert size distribution: {  }
+        pi threshold:    0
+        binary converted: false
+        single reads mapped: true
+        library index:   1
+        number of reads: 0
+        total nucleotides: 0
+...

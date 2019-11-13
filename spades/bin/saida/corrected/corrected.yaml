@@ -1,0 +1,9 @@
+- "left reads":
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida/corrected/out_1.00.0_0.cor.fastq.gz"
+  "orientation": "fr"
+  "right reads":
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida/corrected/out_2.00.0_0.cor.fastq.gz"
+  "single reads":
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida/corrected/out__unpaired.00.0_0.cor.fastq.gz"
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/saida/corrected/out_SE.00.0_1.cor.fastq.gz"
+  "type": "paired-end"
