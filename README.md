@@ -1,2 +1,2 @@
 # Smaps
-A web tool to extends contigs to reduce gaps with unmapped reads
+A pipeline based on unmapped reads, which combines different tools for extends contigs and closing gaps present in the genomes
