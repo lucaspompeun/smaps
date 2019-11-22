@@ -9,5 +9,5 @@ A pipeline based on unmapped reads, which combines different tools for extends c
 - [ ] fgap
 - [ ] gapblaster
 - [ ] prokka
-- [ ] quast
+- [x] quast
 - [ ] characterization in databases
