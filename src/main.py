@@ -11,6 +11,7 @@ import sys
 
 global path
 path = os.path.dirname(os.path.realpath(__file__))
+path += '/src'
 
 
 def write_file(filename, data, mode="w"):
@@ -18,18 +19,28 @@ def write_file(filename, data, mode="w"):
         out.write(data)
 
 
-def gcbias(read1, read2, project, reference=None):
-    out = 'projects/' + project + '/gcbias'
+def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
+    out = 'projects/' + project + '/spades'
     if not os.path.exists(out):
         os.mkdir(out)
 
-    cmd = 'gcbias read1 ' + read1 + ' read2 ' + read2 + ' project ' + project + \
-        'gcbias' + ' outcontig ' + path + '/' + out + '/contigs_gcbias.fasta'
-    if reference:
-        cmd += ' reference ' + reference
+    cmd = path + '/spades/bin/spades.py -o ' + out + ' -t ' + threads + ' '
+    if read2:
+        cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
+        if S:
+            cmd += '-s ' + S + ' '
+    else:
+        cmd += '-s ' + read1
+
+    if trusted_contigs:
+        cmd += ' --trusted-contigs ' + trusted_contigs + ' '
+
+    if untrusted_contigs:
+        cmd += ' --untrusted-contigs ' + untrusted_contigs + ' '
+
     os.system(cmd)
 
-    return out + '/contigs_gcbias.fasta'
+    return out + 'contigs.fasta'
 
 
 def prokka(filename, project):
@@ -156,30 +167,31 @@ def quast(contig_list, project, reference=None):
     return out
 
 
-def main(read1, read2, project, o, reference=None):
+def main(read1, project, o, read2=None, reference=None):
     out = 'projects/' + project
     if not os.path.exists(out):
         os.mkdir(out)
 
-    if reference:
-        contigs_gcbias = gcbias(read1, read2, project, reference)
+    if read2:
+        contigs_spades = spades(read1, project, read2)
     else:
-        contigs_gcbias = gcbias(read1, read2, project)
+        contigs_spades = spades(read1, project)
 
-    sam_file = bowtie2(read1, contigs_gcbias, project, read2)
+    sam_file = bowtie2(read1, contigs_spades, project, read2)
     sorted_bam = samtools(sam_file, project)
 
     unmappedreads(sorted_bam, project)
     unmapped_fastq1 = get_unmapped_fastq(project, 1)
     unmapped_fastq2 = get_unmapped_fastq(project, 2)
 
-    scaffolds_fasta = sspace(project, contigs_gcbias,
+    scaffolds_fasta = sspace(project, contigs_spades,
                              unmapped_fastq1, unmapped_fastq2, o)
 
     prokka(scaffolds_fasta, project)
 
-    contig_list = [contigs_gcbias, scaffolds_fasta]
+    contig_list = [contigs_spades, scaffolds_fasta]
     if reference:
         quast(contig_list, project, reference)
     else:
         quast(contig_list, project)
+

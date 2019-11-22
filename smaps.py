@@ -1,5 +1,5 @@
 import argparse
-from main import *
+from src.main import *
 
 parser = argparse.ArgumentParser(
     description='Smaps - A tool to extends contigs to reduce gaps with unmapped reads')
