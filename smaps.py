@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('-read1', action='store', dest='read1',
                     required=True, help='first fastq file (required)')
 parser.add_argument('-read2', action='store', dest='read2',
-                    required=False, help='second fastq file (optional)')
+                    required=False, default=None, help='second fastq file (optional)')
 parser.add_argument('-reference', action='store', dest='reference',
                     required=False, default=None, help='reference genome (optional)')
 parser.add_argument('-project', action='store', dest='project',
