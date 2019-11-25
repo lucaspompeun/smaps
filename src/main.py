@@ -12,7 +12,6 @@ import sys
 
 global path
 path = os.path.dirname(os.path.realpath(__file__))
-path += '/src'
 
 
 def write_file(filename, data, mode="w"):
