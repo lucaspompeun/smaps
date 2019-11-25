@@ -1,9 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """
 Smaps - A web tool to extends contigs to reduce gaps with unmapped reads
 Author: Lucas Pompeu
 """
-
-# -*- coding: utf-8 -*-
 
 import os
 import sys
