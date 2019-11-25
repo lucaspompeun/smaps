@@ -8,6 +8,7 @@ Author: Lucas Pompeu
 
 import os
 import sys
+import time
 
 
 global path
@@ -20,10 +21,6 @@ def write_file(filename, data, mode="w"):
 
 
 def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
-    """
-    Spades function to assembly genome with paired and unpaired reads.
-    The return of function is the 'contigs.fasta' as the main file.
-    """
 
     print("\n\n\n=========================== SPADES ===========================\n\n\n")
 
@@ -51,10 +48,6 @@ def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16
 
 
 def prokka(filename, project):
-    """
-    Function to run prokka automation annotation on terminal.
-    This function dont't give back return, as the main purpose is run prokka.
-    """
 
     print('\n\n\n=========================== PROKKA ===========================\n\n\n')
 
@@ -65,12 +58,8 @@ def prokka(filename, project):
 
 
 def bowtie2(read1, reference, project, read2=None, N='1', L='22', threads='16'):
-    """
-    Function to map the genome with reads that was used and unused in genome assembling.
-    This function returns the 'output.sam' as the main file.
-    """
 
-    print('\n\n\n=========================== BOWTIE2 ===========================\n\n\n')
+    print('\n\n\n>>> BOWTIE2 <<<\n\n\n')
 
     out = 'projects/' + project + '/' + 'bowtie/'
     database = out + 'database'
@@ -94,9 +83,6 @@ def bowtie2(read1, reference, project, read2=None, N='1', L='22', threads='16'):
 
 
 def samtools(samfile, project):
-    """
-    Function parse the sam file to sorted bam file.
-    """
 
     print('\n\n\n=========================== SAMTOOLS ===========================\n\n\n')
 
@@ -115,9 +101,8 @@ def samtools(samfile, project):
 
 
 def unmappedreads(bamfile, project):
-    """
-    Function to run the 
-    """
+
+    print('\n\n\n=========================== SAMTOOLS and SAMTOFASTQ ===========================\n\n\n')
 
     out = 'projects/' + project + '/unmappedreads/'
     if not os.path.exists(out):
@@ -160,12 +145,18 @@ def unmappedreads(bamfile, project):
 
 
 def get_unmapped_fastq(project, value):
+
+    print('\n\n\n=========================== GETTING UMMAPED FASTQ ===========================\n\n\n')
+
     folder = 'projects/' + project + '/unmappedreads/'
 
     return folder + 'unmapped_read_' + str(value) + '.fastq'
 
 
 def sspace(project, contigs, fastq1, fastq2, o):
+    
+    print('\n\n\n=========================== SSPACE ===========================\n\n\n')
+
     out = 'projects/' + project + '/sspace'
     out1 = 'projects/' + project
 
@@ -181,6 +172,9 @@ def sspace(project, contigs, fastq1, fastq2, o):
 
 
 def quast(contig_list, project, reference=None):
+
+    print('\n\n\n=========================== QUAST ===========================\n\n\n')
+
     out = 'projects/' + project + '/quast/'
     if not os.path.exists(out):
         os.mkdir(out)
@@ -197,6 +191,10 @@ def quast(contig_list, project, reference=None):
 
 
 def smaps(read1, project, o, read2=None, reference=None):
+    print('\n\n\n=========================== SMAPS ===========================\n\n\n')
+    print('Thanks fo using Smaps, please cite us.\n\n')
+    time.sleep(10)
+
     out = 'projects/' + project
     if not os.path.exists(out):
         os.mkdir(out)
@@ -213,7 +211,8 @@ def smaps(read1, project, o, read2=None, reference=None):
     unmapped_fastq1 = get_unmapped_fastq(project, 1)
     unmapped_fastq2 = get_unmapped_fastq(project, 2)
 
-    scaffolds_fasta = sspace(project, contigs_spades,
+    for _ in range(0, 100):
+        scaffolds_fasta = sspace(project, contigs_spades,
                              unmapped_fastq1, unmapped_fastq2, o)
 
     prokka(scaffolds_fasta, project)
