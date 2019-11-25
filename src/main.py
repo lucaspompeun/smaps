@@ -169,7 +169,7 @@ def quast(contig_list, project, reference=None):
 
 
 def smaps(read1, project, o, read2=None, reference=None):
-    out = 'projects/' + project
+    out = 'src/projects/' + project
     if not os.path.exists(out):
         os.mkdir(out)
 
