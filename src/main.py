@@ -20,7 +20,7 @@ def write_file(filename, data, mode="w"):
 
 
 def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
-    out = 'src/projects/' + project + '/spades'
+    out = 'src/projects/' + project + '/spades/'
     if not os.path.exists(out):
         os.mkdir(out)
 
