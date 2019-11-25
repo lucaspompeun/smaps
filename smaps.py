@@ -25,4 +25,4 @@ project = results.project
 o = results.o
 reference = results.reference
 
-main(read1, project, o, read2, reference)
+smaps(read1, project, o, read2, reference)
