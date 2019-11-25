@@ -192,7 +192,7 @@ def quast(contig_list, project, reference=None):
 
 def smaps(read1, project, o, read2=None, reference=None):
     print('\n\n\n=========================== SMAPS ===========================\n\n\n')
-    print('Thanks fo using Smaps, please cite us.\n\n')
+    print('Thanks for using Smaps, please cite us.\n\n')
     time.sleep(10)
 
     out = 'projects/' + project
