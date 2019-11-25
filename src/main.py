@@ -21,7 +21,7 @@ def write_file(filename, data, mode="w"):
 
 
 def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
-    out = 'projects/' + project + '/spades'
+    out = 'src/projects/' + project + '/spades'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -45,14 +45,14 @@ def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16
 
 
 def prokka(filename, project):
-    out = 'projects/' + project + '/prokka/'
+    out = 'src/projects/' + project + '/prokka/'
 
     prokka = 'prokka --outdir ' + out + ' --prefix ' + project + ' ' + filename
     os.system(prokka)
 
 
 def bowtie2(read1, reference, project, read2=None, N='1', L='22', threads='16'):
-    out = 'projects/' + project + '/' + 'bowtie/'
+    out = 'src/projects/' + project + '/' + 'bowtie/'
     database = out + 'database'
     if not os.path.exists(out):
         os.mkdir(out)
@@ -76,7 +76,7 @@ def bowtie2(read1, reference, project, read2=None, N='1', L='22', threads='16'):
 
 
 def samtools(samfile, project):
-    out = 'projects/' + project + '/samtools/'
+    out = 'src/projects/' + project + '/samtools/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -91,7 +91,7 @@ def samtools(samfile, project):
 
 
 def unmappedreads(bamfile, project):
-    out = 'projects/' + project + '/unmappedreads/'
+    out = 'src/projects/' + project + '/unmappedreads/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -132,14 +132,14 @@ def unmappedreads(bamfile, project):
 
 
 def get_unmapped_fastq(project, value):
-    folder = 'projects/' + project + '/unmappedreads/'
+    folder = 'src/projects/' + project + '/unmappedreads/'
 
     return folder + 'unmapped_read_' + str(value) + '.fastq'
 
 
 def sspace(project, contigs, fastq1, fastq2, o):
-    out = 'projects/' + project + '/sspace'
-    out1 = 'projects/' + project
+    out = 'src/projects/' + project + '/sspace'
+    out1 = 'src/projects/' + project
 
     data = 'Lib1 bowtie ' + path + '/' + fastq1 + \
         ' ' + path + '/' + fastq2 + ' 400 0.25 FR'
@@ -153,7 +153,7 @@ def sspace(project, contigs, fastq1, fastq2, o):
 
 
 def quast(contig_list, project, reference=None):
-    out = 'projects/' + project + '/quast/'
+    out = 'src/projects/' + project + '/quast/'
     if not os.path.exists(out):
         os.mkdir(out)
 
