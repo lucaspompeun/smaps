@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from src.main import *
+from main import *
 
 parser = argparse.ArgumentParser(
     description='Smaps - A tool to extends contigs to reduce gaps with unmapped reads')

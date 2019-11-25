@@ -20,7 +20,14 @@ def write_file(filename, data, mode="w"):
 
 
 def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
-    out = 'src/projects/' + project + '/spades/'
+    """
+    Spades function to assembly genome with paired and unpaired reads.
+    The return of function is the 'contigs.fasta' as the main file.
+    """
+
+    print("\n\n\n=========================== SPADES ===========================\n\n\n")
+
+    out = 'projects/' + project + '/spades/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -44,14 +51,28 @@ def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16
 
 
 def prokka(filename, project):
-    out = 'src/projects/' + project + '/prokka/'
+    """
+    Function to run prokka automation annotation on terminal.
+    This function dont't give back return, as the main purpose is run prokka.
+    """
+
+    print('\n\n\n=========================== PROKKA ===========================\n\n\n')
+
+    out = 'projects/' + project + '/prokka/'
 
     prokka = 'prokka --outdir ' + out + ' --prefix ' + project + ' ' + filename
     os.system(prokka)
 
 
 def bowtie2(read1, reference, project, read2=None, N='1', L='22', threads='16'):
-    out = 'src/projects/' + project + '/' + 'bowtie/'
+    """
+    Function to map the genome with reads that was used and unused in genome assembling.
+    This function returns the 'output.sam' as the main file.
+    """
+
+    print('\n\n\n=========================== BOWTIE2 ===========================\n\n\n')
+
+    out = 'projects/' + project + '/' + 'bowtie/'
     database = out + 'database'
     if not os.path.exists(out):
         os.mkdir(out)
@@ -67,15 +88,19 @@ def bowtie2(read1, reference, project, read2=None, N='1', L='22', threads='16'):
 
     cmd += ' -N ' + N + ' -L ' + L + ' -S ' + out + 'output.sam'
 
-    write_file(out + 'commandline.txt', cmd)
-
     os.system(cmd)
 
     return out + 'output.sam'
 
 
 def samtools(samfile, project):
-    out = 'src/projects/' + project + '/samtools/'
+    """
+    Function parse the sam file to sorted bam file.
+    """
+
+    print('\n\n\n=========================== SAMTOOLS ===========================\n\n\n')
+
+    out = 'projects/' + project + '/samtools/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -90,7 +115,11 @@ def samtools(samfile, project):
 
 
 def unmappedreads(bamfile, project):
-    out = 'src/projects/' + project + '/unmappedreads/'
+    """
+    Function to run the 
+    """
+
+    out = 'projects/' + project + '/unmappedreads/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -122,7 +151,7 @@ def unmappedreads(bamfile, project):
             unmapped_header_sam + ' > ' + unmapped_header_bam
         sam_to_fastq = 'java -jar SamToFastq.jar I=' + unmapped_header_bam + ' F=' + out \
             + 'unmapped_read_1.fastq F2=' + out + 'unmapped_read_2.fastq FU=' + out \
-            + 'unmapped_unpaired.fastq 2>&1 | tee ' + out + 'log_2.txt'
+            + 'unmapped_unpaired.fastq'
 
         os.system(get_header)
         os.system(add_header)
@@ -131,14 +160,14 @@ def unmappedreads(bamfile, project):
 
 
 def get_unmapped_fastq(project, value):
-    folder = 'src/projects/' + project + '/unmappedreads/'
+    folder = 'projects/' + project + '/unmappedreads/'
 
     return folder + 'unmapped_read_' + str(value) + '.fastq'
 
 
 def sspace(project, contigs, fastq1, fastq2, o):
-    out = 'src/projects/' + project + '/sspace'
-    out1 = 'src/projects/' + project
+    out = 'projects/' + project + '/sspace'
+    out1 = 'projects/' + project
 
     data = 'Lib1 bowtie ' + path + '/' + fastq1 + \
         ' ' + path + '/' + fastq2 + ' 400 0.25 FR'
@@ -152,7 +181,7 @@ def sspace(project, contigs, fastq1, fastq2, o):
 
 
 def quast(contig_list, project, reference=None):
-    out = 'src/projects/' + project + '/quast/'
+    out = 'projects/' + project + '/quast/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -168,7 +197,7 @@ def quast(contig_list, project, reference=None):
 
 
 def smaps(read1, project, o, read2=None, reference=None):
-    out = 'src/projects/' + project
+    out = 'projects/' + project
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -194,4 +223,3 @@ def smaps(read1, project, o, read2=None, reference=None):
         quast(contig_list, project, reference)
     else:
         quast(contig_list, project)
-
