@@ -20,11 +20,38 @@ def write_file(filename, data, mode="w"):
         out.write(data)
 
 
-def spades(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
+def spades_default(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
 
-    print("\n\n\n<><> SPADES <><>\n\n\n")
+    print("\n\n\n<><> SPADES DEFAULT <><>\n\n\n")
 
-    out = 'projects/' + project + '/spades/'
+    out = 'projects/' + project + '/spades_default/'
+    if not os.path.exists(out):
+        os.mkdir(out)
+
+    cmd = path + '/spades/bin/spades.py -o ' + out + ' -t ' + threads + ' '
+    if read2:
+        cmd += '-1 ' + read1 + ' -2 ' + read2 + ' '
+        if S:
+            cmd += '-s ' + S + ' '
+    else:
+        cmd += '-s ' + read1
+
+    if trusted_contigs:
+        cmd += ' --trusted-contigs ' + trusted_contigs + ' '
+
+    if untrusted_contigs:
+        cmd += ' --untrusted-contigs ' + untrusted_contigs + ' '
+
+    os.system(cmd)
+
+    return out + 'contigs.fasta'
+
+
+def spades_unmapped(read1, project, read2=None, trusted_contigs=None, S=None, threads='16', untrusted_contigs=None):
+
+    print("\n\n\n<><> SPADES UNMMAPED <><>\n\n\n")
+
+    out = 'projects/' + project + '/spades_unmmaped/'
     if not os.path.exists(out):
         os.mkdir(out)
 
@@ -153,13 +180,17 @@ def get_unmapped_fastq(project, value):
     return folder + 'unmapped_read_' + str(value) + '.fastq'
 
 
-def sspace(project, contigs, fastq1, fastq2, o):
+def sspace(project, contigs, fastq1, o, fastq2=None):
     out = 'projects/' + project + '/sspace'
     out1 = 'projects/' + project
 
-    data = 'Lib1 bowtie ' + path + '/' + fastq1 + \
-        ' ' + path + '/' + fastq2 + ' 400 0.25 FR'
-    write_file('projects/' + project + '/library.txt', data)
+    if fastq2:
+        data = 'Lib1 bowtie ' + path + '/' + fastq1 + \
+            ' ' + path + '/' + fastq2 + ' 400 0.25 FR'
+        write_file('projects/' + project + '/library.txt', data)
+    else:
+        data = 'unpaired bowtie ' + path + '/' + fastq1
+        write_file('projects/' + project + '/library.txt', data)
 
     sspace = path + '/SSPACE/SSPACE.pl -l ' + path + '/projects/' + project + '/library.txt -s ' \
         + path + '/' + contigs + ' -x 1 -o ' + str(o) + ' -T 8 -p 1 -b sspace'
@@ -168,26 +199,73 @@ def sspace(project, contigs, fastq1, fastq2, o):
     return out + '/' + 'sspace.final.scaffolds.fasta'
 
 
-def quast(contig_list, project, reference=None):
-
+def quast(contig_list, project, reference=None, gff=None):
+    
     print('\n\n\n<><> QUAST <><>\n\n\n')
 
     out = 'projects/' + project + '/quast/'
     if not os.path.exists(out):
         os.mkdir(out)
-
+    
     cmd = "quast.py" + " -o " + out + " "
     for contig in contig_list:
         if contig:
             cmd += contig + ' '
+
     if reference:
         cmd += '-r ' + reference
+
+    if gff:
+        cmd += " -G " + gff
+
     os.system(cmd)
 
     return out
 
 
-def smaps(read1, project, o, read2=None, reference=None):
+def gapblaster(scaffolds, contigs, project, threads='24'):
+    """
+    Params:
+        scaffolds: default genome assembly
+        contigs: unmapped contigs
+    """
+
+    out = 'projects/' + project + 'gapblaster/'
+    if not os.path.isdir(out):
+        os.mkdir(out)
+
+    run = "./jre/bin/java -Xms6000m -Xmx12000m -jar "
+
+    cmd = run + path + "/gapblaster-cli.jar " + \
+        scaffolds + " " + contigs + " " + out
+    os.system(cmd)
+
+    out_file = out + 'scaffolds.fasta'
+
+    return out_file
+
+
+def fgap(scaffolds, contigs, project, threads='16'):
+    """
+    Params:
+        scaffolds: gapblaster output
+        contigs: unmapped contigs
+    """
+
+    out = 'projects/' + project + 'fgap/'
+
+    cmd = path + "/fgap/run_fgap.sh " + path + "/mcr/v717 " + "-d " + scaffolds + \
+        " -a " + contigs + " -b " + path + \
+        "/fgap/blast/ -o " + out + " -t " + str(threads)
+
+    os.system(cmd)
+
+    out_file = out + '.final.fasta'
+
+    return out_file
+
+
+def smaps(read1, project, o, read2=None, reference=None, gff=None):
     print('\n\n\n<><> SMAPS <><>\n\n\n')
     print('Thanks for using Smaps, please cite us.\n\n')
     time.sleep(10)
@@ -197,9 +275,9 @@ def smaps(read1, project, o, read2=None, reference=None):
         os.mkdir(out)
 
     if read2:
-        contigs_spades = spades(read1, project, read2)
+        contigs_spades = spades_default(read1, project, read2)
     else:
-        contigs_spades = spades(read1, project)
+        contigs_spades = spades_default(read1, project)
 
     sam_file = bowtie2(read1, contigs_spades, project, read2)
     sorted_bam = samtools(sam_file, project)
@@ -207,21 +285,29 @@ def smaps(read1, project, o, read2=None, reference=None):
     unmappedreads(sorted_bam, project)
     unmapped_fastq1 = get_unmapped_fastq(project, 1)
     unmapped_fastq2 = get_unmapped_fastq(project, 2)
-    
+
     print('\n\n\n<><> SSPACE <><>\n\n\n')
     if read2:
-        for _ in range(0, 10):
-            scaffolds_fasta = sspace(project, contigs_spades,
-                                     read1, read2, o)
+        extended_contigs = sspace(project, contigs_spades,
+                                 read1, o, read2)
     else:
-        for _ in range(0, 10):
-            scaffolds_fasta = sspace(project, contigs_spades,
-                                     unmapped_fastq1, unmapped_fastq2, o)
+        extended_contigs = sspace(project, contigs_spades,
+                                 read1, o)
 
-    prokka(scaffolds_fasta, project)
+    
+    unmmaped_contigs = spades_unmapped(unmapped_fastq1, project, unmapped_fastq2)
 
-    contig_list = [contigs_spades, scaffolds_fasta]
-    if reference:
-        quast(contig_list, project, reference)
+    
+    gapblaster_contigs = gapblaster(extended_contigs, unmmaped_contigs, project)
+    scaffolds_fgap = fgap(gapblaster_contigs, unmmaped_contigs, project)
+
+    prokka(scaffolds_fgap, project)
+
+    contig_list = [contigs_spades, scaffolds_fgap]
+    if reference and gff:
+        quast(contig_list, project, reference, gff)
     else:
-        quast(contig_list, project)
+        if reference:
+            quast(contig_list, project, reference)
+        else:
+            quast(contig_list, project, gff)
