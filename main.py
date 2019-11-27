@@ -230,7 +230,7 @@ def gapblaster(scaffolds, contigs, project, threads='24'):
         contigs: unmapped contigs
     """
 
-    out = 'projects/' + project + 'gapblaster/'
+    out = 'projects/' + project + '/gapblaster/'
     if not os.path.isdir(out):
         os.mkdir(out)
 
