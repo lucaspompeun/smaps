@@ -260,7 +260,7 @@ def fgap(scaffolds, contigs, project, threads='16'):
 
     os.system(cmd)
 
-    out_file = out + '.final.fasta'
+    out_file = out + 'final.fasta'
 
     return out_file
 
@@ -298,8 +298,8 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
     unmmaped_contigs = spades_unmapped(unmapped_fastq1, project, unmapped_fastq2)
 
     
-    gapblaster_contigs = gapblaster(extended_contigs, unmmaped_contigs, project)
-    scaffolds_fgap = fgap(gapblaster_contigs, unmmaped_contigs, project)
+    # gapblaster_contigs = gapblaster(extended_contigs, unmmaped_contigs, project)
+    scaffolds_fgap = fgap(extended_contigs, unmmaped_contigs, project)
 
     prokka(scaffolds_fgap, project)
 
