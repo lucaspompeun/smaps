@@ -252,7 +252,7 @@ def fgap(scaffolds, contigs, project, threads='16'):
         contigs: unmapped contigs
     """
 
-    out = 'projects/' + project + 'fgap/'
+    out = 'projects/' + project + '/fgap/'
 
     cmd = path + "/fgap/run_fgap.sh " + path + "/mcr/v717 " + "-d " + scaffolds + \
         " -a " + contigs + " -b " + path + \
