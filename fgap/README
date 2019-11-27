@@ -1,0 +1,11 @@
+-------------------------------------------------
+Run FGAP
+-------------------------------------------------
+
+run_fgap.sh <MCR instalation folder> -d <draft file> -a <dataset(s) file(s)> [parameters]
+
+Ex. Sample data:
+./run_fgap.sh /home/user/MCR/v717/ -d sample_data/DRAFT_ecoli_hiseq454.fasta -a "sample_data/DATASET_ecoli_hiseq.fasta,sample_data/DATASET_ecoli_454.fasta" -b blast/
+
+For more details:
+./run_fgap.sh /home/user/MCR/v717/ --help
