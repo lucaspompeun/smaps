@@ -298,12 +298,12 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
     unmmaped_contigs = spades_unmapped(unmapped_fastq1, project, unmapped_fastq2)
 
     
-    # gapblaster_contigs = gapblaster(extended_contigs, unmmaped_contigs, project)
-    scaffolds_fgap = fgap(extended_contigs, unmmaped_contigs, project)
+    gapblaster_contigs = gapblaster(extended_contigs, unmmaped_contigs, project)
+    #scaffolds_fgap = fgap(extended_contigs, unmmaped_contigs, project)
 
-    prokka(scaffolds_fgap, project)
+    prokka(gapblaster_contigs, project)
 
-    contig_list = [contigs_spades, scaffolds_fgap]
+    contig_list = [contigs_spades, gapblaster_contigs]
     if reference and gff:
         quast(contig_list, project, reference, gff)
     else:
