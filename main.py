@@ -223,46 +223,19 @@ def quast(contig_list, project, reference=None, gff=None):
     return out
 
 
-def gapblaster(scaffolds, contigs, project, threads='24'):
+def gaa(query, target, project):
     """
-    Params:
-        scaffolds: default genome assembly
-        contigs: unmapped contigs
+    Query: unmapped contig
+    Target: extended contig
     """
+    print('\n\n\n<><> GAA <><>\n\n\n')
 
-    out = 'projects/' + project + '/gapblaster/'
-    if not os.path.isdir(out):
+    out = 'projects/' + poject + '/gaa/'
+    if not os.path.exists(out):
         os.mkdir(out)
-
-    run = "./jre/bin/java -Xms6000m -Xmx12000m -jar "
-
-    cmd = run + path + "/gapblaster-cli.jar " + \
-        scaffolds + " " + contigs + " " + out
+    
+    cmd = '/gaa/gaa.pl -t ' + target + ' -q ' + query + ' -o ' + out
     os.system(cmd)
-
-    out_file = out + 'scaffolds.fasta'
-
-    return out_file
-
-
-def fgap(scaffolds, contigs, project, threads='16'):
-    """
-    Params:
-        scaffolds: gapblaster output
-        contigs: unmapped contigs
-    """
-
-    out = 'projects/' + project + '/fgap/'
-
-    cmd = path + "/fgap/run_fgap.sh " + path + "/mcr/v717 " + "-d " + scaffolds + \
-        " -a " + contigs + " -b " + path + \
-        "/fgap/blast/ -o " + out + " -t " + str(threads)
-
-    os.system(cmd)
-
-    out_file = out + 'final.fasta'
-
-    return out_file
 
 
 def smaps(read1, project, o, read2=None, reference=None, gff=None):
@@ -298,10 +271,9 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
     unmmaped_contigs = spades_unmapped(unmapped_fastq1, project, unmapped_fastq2)
 
     
-    gapblaster_contigs = gapblaster(extended_contigs, unmmaped_contigs, project)
-    #scaffolds_fgap = fgap(extended_contigs, unmmaped_contigs, project)
+    gaa(unmmaped_contigs, extended_contigs, project)
 
-    prokka(gapblaster_contigs, project)
+    """prokka(gapblaster_contigs, project)
 
     contig_list = [contigs_spades, gapblaster_contigs]
     if reference and gff:
@@ -310,4 +282,4 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
         if reference:
             quast(contig_list, project, reference)
         else:
-            quast(contig_list, project, gff)
+            quast(contig_list, project, gff)"""
