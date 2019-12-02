@@ -230,7 +230,7 @@ def gaa(query, target, project):
     """
     print('\n\n\n<><> GAA <><>\n\n\n')
 
-    out = 'projects/' + poject + '/gaa/'
+    out = 'projects/' + project + '/gaa/'
     if not os.path.exists(out):
         os.mkdir(out)
     
