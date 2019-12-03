@@ -279,7 +279,7 @@ sub log_track{				# keep ref terminal tips, chop intermediate tips
 	for(@$m){
 		%f = $self->match_to_fields($_);
 
-		if(not %pre_f){		#first match of q; #$pre_f{q_end} == -1){
+		if(not defined %pre_f){		#first match of q; #$pre_f{q_end} == -1){
 			my $len_t = $f{t_end} - $f{t_start};
 			$track .= "$f{ort}T$f{t_name}($f{t_start}:$len_t)";
 			 

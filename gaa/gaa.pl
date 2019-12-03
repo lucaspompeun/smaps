@@ -1,4 +1,5 @@
-#!/usr/bin/perl 
+#!/gsc/opt/perl5-threaded/bin/perl
+
 #       gaa.pl		Version 1.0
 #
 #       Copyright 2010, 2011 Guohui Yao <gyao at wustl dot edu>
@@ -149,7 +150,7 @@ if(defined $opt{match}){
 	print STDERR "Escape mapping, proceeding to next step!\n"; }
 else{
 	$opt{match} = "match.psl";
-	my $blat_cmd = "blat -fastMap -threads=24 $opt{target} $opt{query} $opt{match}";
+	my $blat_cmd = "blat -fastMap $opt{target} $opt{query} $opt{match}";
 	print STDERR `date`, "$blat_cmd\n";
 	system $blat_cmd;
 	die "Blat Failed!\n$usage" unless -e $opt{match};
