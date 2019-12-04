@@ -710,8 +710,9 @@ sub set_scaf_degree_n_contig_length{
 	while(<IN>){
 		chomp;
 		if(/^>/){
-			$name = substr $_, 1;
-			my ($s, $c) = $_ =~ /Contig(\d+)\.(\d+)/; 
+			($name) = split;
+			$name = substr $name, 1;
+			my ($s, $c) = $name =~ /Contig(\d+)\.(\d+)/; 
 			$self->{scaf}{$s}[$c-1] = "+T$_";	#distinguish old contig from merged contig by if have "Contig"
 		}else{
 			$self->{t_length}{$name} += length;

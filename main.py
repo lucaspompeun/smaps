@@ -234,7 +234,7 @@ def gaa(query, target, project):
     if not os.path.exists(out):
         os.mkdir(out)
     
-    cmd = path + '/gaa/gaa.pl -t ' + target + ' -q ' + query + ' -o ' + out
+    cmd ='perl ' + path + '/gaa/gaa.pl -t ' + target + ' -q ' + query + ' -o ' + out
     os.system(cmd)
 
 
