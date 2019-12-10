@@ -246,21 +246,20 @@ def awk(contig_list):
     return project + "final.fasta"""
 
 
-
 def gaa(query, target, project):
-    
+
     # Query: unmapped contig
     # Target: extended contig
-    
+
     print('\n\n\n<><> GAA <><>\n\n\n')
 
     out = 'projects/' + project + '/gaa/'
     if not os.path.exists(out):
         os.mkdir(out)
-    
-    cmd ='perl ' + path + '/gaa/gaa.pl -t ' + target + ' -q ' + query + ' -o ' + out
-    os.system(cmd)
 
+    cmd = 'perl ' + path + '/gaa/gaa.pl -t ' + \
+        target + ' -q ' + query + ' -o ' + out
+    os.system(cmd)
 
 
 def smaps(read1, project, o, read2=None, reference=None, gff=None):
@@ -289,11 +288,20 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
 
     print('\n\n\n<><> SSPACE <><>\n\n\n')
     if read2:
-        extended_contigs = sspace(project, contigs_spades,
-                                  read1, o, read2)
+        pre_contig = sspace(project, contigs_spades, read1, o, read2)
+
+        for _ in range(o):
+            pre_contig = sspace(project, pre_contig, read1, o, read2)
+
+        extended_contigs = sspace(project, pre_contig, read1, o, read2)
+
     else:
-        extended_contigs = sspace(project, contigs_spades,
-                                  read1, o)
+        pre_contig = sspace(project, contigs_spades, read1, o)
+
+        for i in range(o):
+            pre_contig = sspace(project, pre_contig, read1, o)
+
+        extended_contigs = sspace(project, pre_contig, read1, o)
 
     unmmaped_contigs = spades_unmapped(
         unmapped_fastq1, project, unmapped_fastq2)

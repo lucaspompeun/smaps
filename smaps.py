@@ -16,7 +16,7 @@ parser.add_argument('-gff', action='store', dest='gff',
                     required=False, default=None, help='gff (optional)')
 parser.add_argument('-project', action='store', dest='project',
                     required=True, help='name of project (required)')
-parser.add_argument('-o', action='store', dest='o', type=int, default=5, required=False,
+parser.add_argument('-sspace', action='store', dest='o', type=int, default=5, required=False,
                     help='minimum number of reads needed to extend a base (optional)')
 parser.add_argument('--version', action='version', version='Smaps 1.0')
 results = parser.parse_args()
