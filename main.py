@@ -229,7 +229,7 @@ def awk(contig_list):
                   contig + " > " + contig + ".mod | mv " + contig + ".mod " + contig)
 
 
-def gaa(query, target, project):
+"""def gaa(query, target, project):
     out1 = 'projects/' + project + '/gaa/'
     if not os.path.exists(out1):
         os.mkdir(out1)
@@ -243,14 +243,14 @@ def gaa(query, target, project):
 
     os.system("mv " + out1 + "merg* " + project + "final.fasta")
 
-    return project + "final.fasta"
+    return project + "final.fasta"""
 
 
-"""
+
 def gaa(query, target, project):
     
-    Query: unmapped contig
-    Target: extended contig
+    # Query: unmapped contig
+    # Target: extended contig
     
     print('\n\n\n<><> GAA <><>\n\n\n')
 
@@ -260,7 +260,7 @@ def gaa(query, target, project):
     
     cmd ='perl ' + path + '/gaa/gaa.pl -t ' + target + ' -q ' + query + ' -o ' + out
     os.system(cmd)
-"""
+
 
 
 def smaps(read1, project, o, read2=None, reference=None, gff=None):
@@ -277,7 +277,10 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
     else:
         contigs_spades = spades_default(read1, project)
 
-    sam_file = bowtie2(read1, contigs_spades, project, read2)
+    if read2:
+        sam_file = bowtie2(read1, contigs_spades, project, read2)
+    else:
+        sam_file = bowtie2(read1, contigs_spades, project)
     sorted_bam = samtools(sam_file, project)
 
     unmappedreads(sorted_bam, project)
