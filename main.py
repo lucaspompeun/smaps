@@ -200,13 +200,13 @@ def sspace(project, contigs, fastq1, o, fastq2=None):
 
 
 def quast(contig_list, project, reference=None, gff=None):
-    
+
     print('\n\n\n<><> QUAST <><>\n\n\n')
 
     out = 'projects/' + project + '/quast/'
     if not os.path.exists(out):
         os.mkdir(out)
-    
+
     cmd = "quast.py" + " -o " + out + " "
     for contig in contig_list:
         if contig:
@@ -223,12 +223,18 @@ def quast(contig_list, project, reference=None, gff=None):
     return out
 
 
+def awk(contig_list):
+    for contig in contig_list:
+        os.system("awk '/^>/{print " + '">Contig0."' + " ++i; next}{print}' < " +
+                  contig + " > " + contig + ".mod | mv " + contig + ".mod " + contig)
+
+
 def gaa(query, target, project):
     out1 = 'projects/' + project + '/gaa/'
     if not os.path.exists(out1):
         os.mkdir(out1)
 
-    os.system("perl " + path +  "/gaa/gaa.pl -t " + target +
+    os.system("perl " + path + "/gaa/gaa.pl -t " + target +
               " -q " + query + " -o " + out1)
     os.system("mv " + out1 + "cont* " + project + "merged.fasta")
     os.system("rm " + out1 + "* ")
@@ -238,6 +244,7 @@ def gaa(query, target, project):
     os.system("mv " + out1 + "merg* " + project + "final.fasta")
 
     return project + "final.fasta"
+
 
 """
 def gaa(query, target, project):
@@ -254,6 +261,7 @@ def gaa(query, target, project):
     cmd ='perl ' + path + '/gaa/gaa.pl -t ' + target + ' -q ' + query + ' -o ' + out
     os.system(cmd)
 """
+
 
 def smaps(read1, project, o, read2=None, reference=None, gff=None):
     print('\n\n\n<><> SMAPS <><>\n\n\n')
@@ -279,15 +287,15 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
     print('\n\n\n<><> SSPACE <><>\n\n\n')
     if read2:
         extended_contigs = sspace(project, contigs_spades,
-                                 read1, o, read2)
+                                  read1, o, read2)
     else:
         extended_contigs = sspace(project, contigs_spades,
-                                 read1, o)
+                                  read1, o)
 
-    
-    unmmaped_contigs = spades_unmapped(unmapped_fastq1, project, unmapped_fastq2)
+    unmmaped_contigs = spades_unmapped(
+        unmapped_fastq1, project, unmapped_fastq2)
 
-    
+    awk([unmmaped_contigs, extended_contigs])
     gaa(unmmaped_contigs, extended_contigs, project)
 
     """prokka(gapblaster_contigs, project)
