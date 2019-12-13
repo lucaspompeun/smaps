@@ -229,23 +229,6 @@ def awk(contig_list):
                   contig + " > " + contig + ".mod | mv " + contig + ".mod " + contig)
 
 
-"""def gaa(query, target, project):
-    out1 = 'projects/' + project + '/gaa/'
-    if not os.path.exists(out1):
-        os.mkdir(out1)
-
-    os.system("perl " + path + "/gaa/gaa.pl -t " + target +
-              " -q " + query + " -o " + out1)
-    os.system("mv " + out1 + "cont* " + project + "merged.fasta")
-    os.system("rm " + out1 + "* ")
-    os.system("perl " + path + "/gaa/gaa.pl -t " + project +
-              "merged.fasta -q " + query + " -o " + out1)
-
-    os.system("mv " + out1 + "merg* " + project + "final.fasta")
-
-    return project + "final.fasta"""
-
-
 def gaa(query, target, project):
 
     # Query: unmapped contig
@@ -260,6 +243,8 @@ def gaa(query, target, project):
     cmd = 'perl ' + path + '/gaa/gaa.pl -t ' + \
         target + ' -q ' + query + ' -o ' + out
     os.system(cmd)
+
+    return out + 'sspace.final.scaffolds.fasta_n_contigs.fasta.fa'
 
 
 def smaps(read1, project, o, read2=None, reference=None, gff=None):
@@ -307,15 +292,15 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
         unmapped_fastq1, project, unmapped_fastq2)
 
     awk([unmmaped_contigs, extended_contigs])
-    gaa(unmmaped_contigs, extended_contigs, project)
+    gaa_contig = gaa(unmmaped_contigs, extended_contigs, project)
 
-    """prokka(gapblaster_contigs, project)
+    prokka(gaa_contig, project)
 
-    contig_list = [contigs_spades, gapblaster_contigs]
+    contig_list = [contigs_spades, gaa_contig]
     if reference and gff:
         quast(contig_list, project, reference, gff)
     else:
         if reference:
             quast(contig_list, project, reference)
         else:
-            quast(contig_list, project, gff)"""
+            quast(contig_list, project, gff)
