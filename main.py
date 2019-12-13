@@ -230,6 +230,23 @@ def awk(contig_list):
 
 
 def gaa(query, target, project):
+    out1 = 'projects/' + project + '/gaa/'
+    if not os.path.exists(out1):
+        os.mkdir(out1)
+
+    os.system("perl " + path + "/gaa/gaa.pl -t " + target +
+              " -q " + query + " -o " + out1)
+    os.system("mv " + out1 + "cont* " + project + "merged.fasta")
+    os.system("rm " + out1 + "* ")
+    os.system("perl " + path + "/gaa/gaa.pl -t " + project +
+              "merged.fasta -q " + query + " -o " + out1)
+
+    os.system("mv " + out1 + "merg* final.fasta")
+
+    return project + "final.fasta"
+
+
+"""def gaa(query, target, project):
 
     # Query: unmapped contig
     # Target: extended contig
@@ -244,7 +261,7 @@ def gaa(query, target, project):
         target + ' -q ' + query + ' -o ' + out
     os.system(cmd)
 
-    return out + 'sspace.final.scaffolds.fasta_n_contigs.fasta.fa'
+    return out + 'sspace.final.scaffolds.fasta_n_contigs.fasta.fa'"""
 
 
 def smaps(read1, project, o, read2=None, reference=None, gff=None):
@@ -283,7 +300,7 @@ def smaps(read1, project, o, read2=None, reference=None, gff=None):
     else:
         pre_contig = sspace(project, contigs_spades, read1, o)
 
-        for i in range(o):
+        for _ in range(o):
             pre_contig = sspace(project, pre_contig, read1, o)
 
         extended_contigs = sspace(project, pre_contig, read1, o)
