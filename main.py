@@ -243,7 +243,7 @@ def gaa(query, target, project):
 
     os.system("mv " + out1 + "merg* final.fasta")
 
-    return project + "final.fasta"
+    return project + "/final.fasta"
 
 
 """def gaa(query, target, project):
