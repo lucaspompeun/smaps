@@ -236,14 +236,14 @@ def gaa(query, target, project):
 
     os.system("perl " + path + "/gaa/gaa.pl -t " + target +
               " -q " + query + " -o " + out1)
-    os.system("mv " + out1 + "cont* " + out1 + project + "merged.fasta")
+    os.system("mv " + path + '/' + out1 + "cont* " + out1 + project + "merged.fasta")
     #os.system("rm " + out1 + "* ")
     os.system("perl " + path + "/gaa/gaa.pl -t " + project +
               "merged.fasta -q " + query + " -o " + out1)
 
-    os.system("mv " + out1 + "merg* final.fasta")
+    os.system("mv " + path + '/' + out1 + "merg* final.fasta")
 
-    return out1 + "/final.fasta"
+    return out1 + "final.fasta"
 
 
 """def gaa(query, target, project):
