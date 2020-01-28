@@ -228,24 +228,6 @@ def awk(contig_list):
         os.system("awk '/^>/{print " + '">Contig0."' + " ++i; next}{print}' < " +
                   contig + " > " + contig + ".mod | mv " + contig + ".mod " + contig)
 
-"""
-def gaa(query, target, project):
-    out1 = 'projects/' + project + '/gaa/'
-    if not os.path.exists(out1):
-        os.mkdir(out1)
-
-    os.system("perl " + path + "/gaa/gaa.pl -t " + target +
-              " -q " + query + " -o " + out1)
-    os.system("mv " + path + '/' + out1 + "cont* " + out1 + project + "merged.fasta")
-    #os.system("rm " + out1 + "* ")
-    os.system("perl " + path + "/gaa/gaa.pl -t " + project +
-              "merged.fasta -q " + query + " -o " + out1)
-
-    os.system("mv " + path + '/' + out1 + "merg* final.fasta")
-
-    return out1 + "final.fasta"
-"""
-
 
 def gaa(query, target, project):
 
