@@ -228,7 +228,7 @@ def awk(contig_list):
         os.system("awk '/^>/{print " + '">Contig0."' + " ++i; next}{print}' < " +
                   contig + " > " + contig + ".mod | mv " + contig + ".mod " + contig)
 
-
+"""
 def gaa(query, target, project):
     out1 = 'projects/' + project + '/gaa/'
     if not os.path.exists(out1):
@@ -244,9 +244,10 @@ def gaa(query, target, project):
     os.system("mv " + path + '/' + out1 + "merg* final.fasta")
 
     return out1 + "final.fasta"
+"""
 
 
-"""def gaa(query, target, project):
+def gaa(query, target, project):
 
     # Query: unmapped contig
     # Target: extended contig
@@ -261,7 +262,7 @@ def gaa(query, target, project):
         target + ' -q ' + query + ' -o ' + out
     os.system(cmd)
 
-    return out + 'sspace.final.scaffolds.fasta_n_contigs.fasta.fa'"""
+    return out + 'sspace.final.scaffolds.fasta_n_contigs.fasta.fa'
 
 
 def smaps(read1, project, o, read2=None, reference=None, gff=None):
