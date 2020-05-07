@@ -1,0 +1,8 @@
+- "left reads":
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/default/corrected/Reads.1.00.0_0.cor.fastq.gz"
+  "orientation": "fr"
+  "right reads":
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/default/corrected/Reads.2.00.0_0.cor.fastq.gz"
+  "single reads":
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/default/corrected/Reads._unpaired.00.0_0.cor.fastq.gz"
+  "type": "paired-end"

@@ -1,1 +1,0 @@
-gaa.pl -t ../../SPAdes-3.13.0-Linux/bin/default/contigs.fasta -q ../../SPAdes-3.13.0-Linux/bin/saida_vies/contigs.fasta -o saida_merge

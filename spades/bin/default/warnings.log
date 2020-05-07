@@ -1,6 +1,0 @@
-
-=== Error correction and assembling warnings:
- * 0:00:00.110    16M / 3G    WARN    General                 (kmer_coverage_model.cpp   : 218)   Too many erroneous kmers, the estimates might be unreliable
- * 0:00:00.206    16M / 3G    WARN    General                 (kmer_coverage_model.cpp   : 366)   Failed to determine erroneous kmer threshold. Threshold set to: 10
- * 0:00:00.351    16M / 3G    WARN    General                 (simplification.cpp        : 479)   The determined erroneous connection coverage threshold may be determined improperly
-======= Warnings saved to /home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/default/warnings.log

@@ -1,13 +1,19 @@
 # Smaps
-A pipeline based on unmapped reads, which combines different tools for extends contigs and closing gaps present in the genomes
 
-#### TO-DO
-- [ ] spades
-- [ ] bowtie2
-- [ ] samtools
-- [ ] sspace
-- [ ] fgap
-- [ ] gapblaster
-- [ ] prokka
-- [x] quast
-- [ ] characterization in databases
+## Requirements
+1 - Bowtie2 in `PATH` variable
+
+2 - Python3 or higher
+
+3 - Java version "1.8.0_201" or higher
+
+4 - Quast in `PATH` variable
+
+5 - AWK in `PATH` variable
+
+6 - Perl language installed
+
+7 - Prokka in `PATH` variable
+
+# Please, always submit the input files with pathway to the file.
+

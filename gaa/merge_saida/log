@@ -1,1 +1,0 @@
-gaa.pl -t ../../SPAdes-3.13.0-Linux/bin/default/contigs_MOD.fasta -q ../../SPAdes-3.13.0-Linux/bin/saida_vies/contigs_MOD.fasta -o merge_saida

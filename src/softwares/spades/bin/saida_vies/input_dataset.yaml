@@ -1,0 +1,11 @@
+- "left reads":
+  - "/home/bioinfo/Desktop/Data_teste/prinseq-lite-0.20.4/out_1.fastq"
+  "orientation": "fr"
+  "right reads":
+  - "/home/bioinfo/Desktop/Data_teste/prinseq-lite-0.20.4/out_2.fastq"
+  "single reads":
+  - "/home/bioinfo/Desktop/Data_teste/prinseq-lite-0.20.4/out_SE.fastq"
+  "type": "paired-end"
+- "single reads":
+  - "/home/bioinfo/Desktop/Data_teste/SPAdes-3.13.0-Linux/bin/default/contigs.fasta"
+  "type": "trusted-contigs"

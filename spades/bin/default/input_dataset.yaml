@@ -1,6 +1,0 @@
-- "left reads":
-  - "/home/bioinfo/Desktop/Data_teste/Reads.1.fastq"
-  "orientation": "fr"
-  "right reads":
-  - "/home/bioinfo/Desktop/Data_teste/Reads.2.fastq"
-  "type": "paired-end"
