@@ -276,6 +276,41 @@ def Quast(output, contigList, reference=None, gff=None):
     WriteTimeLog('Quast - End: ', timeQuast, output)
 
 
+def OutputGenerator(output):
+    """
+    Move all the importants files to an output folder with HTML file 
+    """
+
+    mvGaa = f"mv {output}/gaa/*.fa {output}/final.fasta"
+    os.system(mvGaa)
+    rmGaa = f"rm -rf {output}/gaa"
+    os.system(rmGaa)
+
+    rmBowtie = f"rm -rf {output}/bowtie"
+    os.system(rmBowtie)
+
+    rmLibrary = f"rm {output}/library.txt"
+    os.system(rmLibrary)
+
+    rmSamtools = f"rm -rf {output}/samtools"
+    os.system(rmSamtools)
+
+    # moving first assembly from the pipeline
+    mvSpadesDefault = f"mv {output}/spades_default/contigs.fasta {output}/first.fasta"
+    os.system(mvSpadesDefault)
+    rmSpadesDefault = f"rm -rf {output}/spades_default"
+    os.system(rmSpadesDefault)
+
+    rmSpadesUnmapped = f"rm -rf {output}/spades_unmapped"
+    os.system(rmSpadesUnmapped)
+    
+    rmSspace = f"rm -rf {output}/sspace"
+    os.system(rmSspace)
+
+    rmUnmappedReads = f"rm -rf {output}/unmapped_reads"
+    os.system(rmUnmappedReads)
+
+
 def Main(read1, output, read2=None, gff=None, reference=None, sspace=5, minReadsExtension=5):
     timeMain = time.time()
 
@@ -347,3 +382,5 @@ def Main(read1, output, read2=None, gff=None, reference=None, sspace=5, minReads
             Quast(output, contigList, gff=gff)
 
     WriteTimeLog('Smaps - End: ', timeMain, output)
+
+    # OutputGenerator(output)
