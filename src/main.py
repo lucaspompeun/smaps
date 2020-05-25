@@ -383,4 +383,4 @@ def Main(read1, output, read2=None, gff=None, reference=None, sspace=5, minReads
 
     WriteTimeLog('Smaps - End: ', timeMain, output)
 
-    # OutputGenerator(output)
+    OutputGenerator(output)
