@@ -9,15 +9,15 @@
 A pipeline based on unmapped reads, which combines different tools for extends contigs and closing gaps present in the genomes.
 
 ## Requirements
-- [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) in `PATH` variable
+- [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) in `PATH` variable.
 
-- [Python3](https://www.python.org/downloads/) or higher
+- [Python3](https://www.python.org/downloads/) or higher.
 
-- [Java](https://www.java.com/download/) version 1.8.0_201 or higher
+- [Java](https://www.java.com/download/) version 1.8.0_201 or higher.
 
-- [Quast](http://bioinf.spbau.ru/quast) in `PATH` variable
+- [Quast](http://bioinf.spbau.ru/quast) in `PATH` variable.
 
-- [Perl](https://www.perl.org/get.html) language installed
+- [Perl](https://www.perl.org/get.html) language installed.
 
 - [Prokka](https://github.com/tseemann/prokka) in `PATH` variable
 
