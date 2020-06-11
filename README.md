@@ -25,24 +25,39 @@ A pipeline based on unmapped reads, which combines different tools for extends c
 You need to install git
 
 ```sh
-sudo apt install git
+$ sudo apt install git
 ```
 
 Clone smaps repository to your machine
 
 ```
-cd && git clone https://github.com/lucaspompeun/smaps.git
+$ cd && git clone https://github.com/lucaspompeun/smaps.git
 ```
 
 Creat a symbolic link to Smaps
 ```
-sudo chmod 777 smaps/ && ln -s ~/smaps/smaps.py /usr/local/bin/smaps
+$ sudo chmod 777 smaps/ && ln -s ~/smaps/smaps.py /usr/local/bin/smaps
 ```
 
 With all dependecies satisfied you can simple run on terminal
 
 ```
-smaps
+$ smaps -h
+usage: smaps.py [-h] -read1 READ1 [-read2 READ2] -output OUTPUT [-gff GFF] [-reference REFERENCE] [-sspace SSPACE] [-minreads MINREADS] [--version]
+
+Smaps A tool to extends contigs to reduce gaps with unmapped reads
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -read1 READ1          first fastq file (required)
+  -read2 READ2          second fastq file (optional)
+  -output OUTPUT        output for results files (please, give the full path for the output)
+  -gff GFF              gff file (optional)
+  -reference REFERENCE  reference file (optional)
+  -sspace SSPACE        number of runs of sspace software (optional, default=5)
+  -minreads MINREADS    minimum number of unmapped reads to extend a base (optional, default=5)
+  --version             show program's version number and exit
+
 ```
 
 > Please, always submit the input files with pathway to the file.
