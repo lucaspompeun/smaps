@@ -281,10 +281,10 @@ def OutputGenerator(output):
     Move all the importants files to an output folder with HTML file 
     """
 
-    mvGaa = f"mv {output}/gaa/*.fa {output}/final.fasta"
+    """mvGaa = f"mv {output}/gaa/*.fa {output}/final.fasta"
     os.system(mvGaa)
     rmGaa = f"rm -rf {output}/gaa"
-    os.system(rmGaa)
+    os.system(rmGaa)"""
 
     rmBowtie = f"rm -rf {output}/bowtie"
     os.system(rmBowtie)
