@@ -22,7 +22,7 @@ parser.add_argument('-sspace', action='store', dest='sspace', required=False,
                     default=5, help='number of runs of sspace software (optional, default=5)')
 parser.add_argument('-minreads', action='store', dest='minreads', required=False, default=5,
                     help='minimum number of unmapped reads to extend a base (optional, default=5)')
-parser.add_argument('--version', action='version', version='Smaps 1.1')
+parser.add_argument('--version', action='version', version='Smaps 1.1.2')
 
 results = parser.parse_args()
 
