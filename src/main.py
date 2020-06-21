@@ -1,5 +1,4 @@
-import time
-import os
+import time, os
 
 
 global localPath
