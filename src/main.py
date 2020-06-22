@@ -196,7 +196,6 @@ def Sspace(output, contig, read1, minReadsExtension, read2=None):
         libData = 'unpaired bowtie ' + read1
         WriteLibrary(output + '/library.txt', libData)
 
-    # depois verificar se adiciono o -b que é o nome final do arquivo
     cmdSspace = localPath + '/softwares/sspace/SSPACE.pl -l ' + output + \
         '/library.txt -s ' + contig + ' -x 1 -o ' + \
         str(minReadsExtension) + ' -T 8 -b sspace'
@@ -280,10 +279,10 @@ def OutputGenerator(output):
     Move all the importants files to an output folder with HTML file 
     """
 
-    """mvGaa = f"mv {output}/gaa/*.fa {output}/final.fasta"
+    mvGaa = f"mv {output}/gaa/sspace.final.scaffolds.fasta_n_contigs.fasta.fa {output}/final.fasta"
     os.system(mvGaa)
     rmGaa = f"rm -rf {output}/gaa"
-    os.system(rmGaa)"""
+    os.system(rmGaa)
 
     rmBowtie = f"rm -rf {output}/bowtie"
     os.system(rmBowtie)
