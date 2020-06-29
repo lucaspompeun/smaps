@@ -9,7 +9,7 @@
 A pipeline based on unmapped reads, which combines different tools for extends contigs and closing gaps present in the genomes.
 
 ## Requirements
-- Linux (64-bit or 32-bit with slightly limited functionality).
+- Linux (64-bit or 32-bit with slightly limited functionality) - The peak RAM usage of this pipeline is about 8GB.
 
 - [Python3](https://www.python.org/downloads/) or higher.
 
