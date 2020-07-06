@@ -36,7 +36,7 @@ $ cd && git clone https://github.com/lucaspompeun/smaps.git
 
 Creat a symbolic link to Smaps
 ```
-$ sudo chmod 777 smaps/ && ln -s ~/smaps/smaps.py /usr/local/bin/smaps
+$ sudo chmod 777 smaps/* && ln -s ~/smaps/smaps.py /usr/local/bin/smaps
 ```
 
 With all dependecies satisfied you can simple run on terminal
